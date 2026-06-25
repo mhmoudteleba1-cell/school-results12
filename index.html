@@ -1,15 +1,19 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#090a0f">
   <title>بوابة نتائج الطلاب</title>
-  <!-- Google Fonts: Cairo and Aref Ruqaa -->
+  <!-- Google Fonts: Cairo and Aref Ruqaa — non-blocking async load -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&amp;family=Cairo:wght@400;600;700;800&amp;display=swap" rel="stylesheet" media="all" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet"></noscript>
   <!-- SheetJS Library for parsing Excel in browser -->
-  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js" defer=""></script>
 
   <style>
     :root {
@@ -117,6 +121,9 @@
       justify-content: center;
       padding: 24px 20px 60px;
       overflow-x: hidden;
+      /* Smooth momentum scrolling on iOS */
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: none;
       transition: background-color 0.3s ease, color 0.3s ease;
     }
 
@@ -1971,6 +1978,109 @@
       .bg-orb { opacity: 0.15; }
     }
 
+    /* ====================================================
+       MOBILE PERFORMANCE MODE — disables expensive effects
+       on phones and tablets for smooth 60fps experience
+    ==================================================== */
+    @media (max-width: 768px) {
+      /* Kill all backdrop-filter blur — #1 cause of lag */
+      *,
+      *::before,
+      *::after {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+      }
+
+      /* Disable orb animations completely on mobile */
+      .bg-orb {
+        animation: none !important;
+        display: none !important;
+      }
+
+      /* Disable backdrop glow */
+      .backdrop-glow {
+        display: none !important;
+      }
+
+      /* Kill text shimmer on footer — uses background-clip */
+      .footer-name-badge .name-text {
+        animation: none !important;
+        background: var(--accent) !important;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* Simplify school emoji float animation */
+      .school-emoji {
+        animation: none !important;
+        filter: none !important;
+      }
+
+      /* Simplify heart pulse to lighter version */
+      .footer-heart {
+        filter: none !important;
+        animation: heartPulse 2s ease-in-out infinite;
+      }
+
+      /* Remove hover scale transforms — not needed on touch */
+      .stat-card:hover,
+      .search-card:hover,
+      .congrats-card:hover,
+      .footer-card:hover {
+        transform: none !important;
+        box-shadow: var(--shadow-card) !important;
+      }
+
+      /* Reduce transition duration across the board */
+      * {
+        transition-duration: 0.15s !important;
+      }
+
+      /* Keep important transitions natural */
+      .modal-overlay { transition: none !important; }
+      .nav-overlay-menu { transition: opacity 0.2s ease, transform 0.2s ease !important; }
+
+      /* Simplify search card — no shimmer before-pseudo on mobile */
+      .search-card::before {
+        display: none !important;
+      }
+
+      /* Simplify menu button hover */
+      .menu-trigger-btn:hover {
+        transform: none !important;
+      }
+
+      /* Disable border rotate animation on footer */
+      .footer-card::before {
+        animation: none !important;
+        background: linear-gradient(135deg, #a855f7, #10b981) !important;
+      }
+      .footer-card::after {
+        animation: none !important;
+        display: none !important;
+      }
+
+      /* Make nav menu simpler on mobile */
+      .nav-overlay-menu {
+        width: 200px !important;
+        border-radius: 18px !important;
+      }
+
+      /* Reduce sparkle animation  */
+      .footer-label .sparkle {
+        animation: none !important;
+      }
+
+      /* Reduce hero label animation */
+      .hero-label {
+        animation: none !important;
+      }
+
+      /* Disable countUp animation on mobile — just show instantly */
+      .stat-val {
+        animation: none !important;
+      }
+    }
+
     /* Hamburger Menu Button */
     .menu-trigger-btn {
       position: fixed;
@@ -2693,8 +2803,8 @@
       to   { opacity: 0.55; transform: translateY(0); }
     }
   </style>
-</head>
-<body>
+
+
 
   <!-- Animated background orbs -->
   <div class="bg-orb bg-orb-1"></div>
@@ -2708,18 +2818,18 @@
   <div class="appearance-sidebar">
     <div class="sidebar-label">المظهر</div>
     <div class="sidebar-divider"></div>
-    <button onclick="setTheme('dark')" id="themeBtnDark" class="theme-toggle-option active">
-      <svg viewBox="0 0 24 24"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <button onclick="setTheme('dark')" id="themeBtnDark" class="theme-toggle-option">
+      <svg viewBox="0 0 24 24"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" stroke-linecap="round" stroke-linejoin="round"></path></svg>
       <span>داكن</span>
     </button>
-    <button onclick="setTheme('light')" id="themeBtnLight" class="theme-toggle-option">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M2 12h2m16 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke-linecap="round"/></svg>
+    <button onclick="setTheme('light')" id="themeBtnLight" class="theme-toggle-option active">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M2 12h2m16 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke-linecap="round"></path></svg>
       <span>فاتح</span>
     </button>
   </div>
 
   <!-- Hamburger Menu Button -->
-  <button class="menu-trigger-btn" id="menuTriggerBtn" onclick="toggleMenu()" title="القائمة الرئيسية">
+  <button class="menu-trigger-btn" id="menuTriggerBtn" onclick="toggleMenu()" title="القائمة الرئيسية" style="display: none;">
     <span></span>
     <span></span>
     <span></span>
@@ -2728,15 +2838,15 @@
   <!-- Navigation Overlay Menu -->
   <div class="nav-overlay-menu" id="navOverlayMenu">
     <button class="nav-menu-item active" id="menuItemSearch" onclick="showView('search')">
-      <svg viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+      <svg viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
       <span>صفحة النتائج</span>
     </button>
     <button class="nav-menu-item" id="menuItemTop10" onclick="showView('top10')">
-      <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-2.006 3.42 3.42 0 014.438 0 3.42 3.42 0 002.006 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 002.006 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-2.006 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946 2.006 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-2.006 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-2.006-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 002.006-1.946 3.42 3.42 0 013.138-3.138z" /></svg>
+      <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-2.006 3.42 3.42 0 014.438 0 3.42 3.42 0 002.006 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 002.006 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-2.006 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946 2.006 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-2.006 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-2.006-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 002.006-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
       <span>العشرة الأوائل</span>
     </button>
     <button class="nav-menu-item" id="menuItemHonor" onclick="showView('honor')">
-      <svg viewBox="0 0 24 24"><path d="M12 14l9-5-9-5-9 5 9 5zm0 0v6M12 20h0" /></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 14l9-5-9-5-9 5 9 5zm0 0v6M12 20h0"></path></svg>
       <span>لوحة الشرف</span>
     </button>
   </div>
@@ -2744,20 +2854,20 @@
   <div class="app-container">
     
     <!-- Hero Label -->
-    <div class="hero-label">
+    <div class="hero-label" style="display: none;">
       <span class="school-emoji">🏫</span>
-      <h2 id="heroTitle">بوابة نتائج الطلاب 2026</h2>
-      <p id="heroSubtitle">بوابة نتائج الطلاب الرسمية - إدارة سمالوط التعليمية</p>
+      <h2 id="heroTitle">نتيجة أولى بكالوريا 2027</h2>
+      <p id="heroSubtitle">بوابة نتائج الطلاب الرسمية - مدرسة المشير عبدالحكيم عامر</p>
     </div>
 
     <!-- Confetti Canvas (always in DOM, drawn only when active) -->
     <canvas id="confettiCanvas"></canvas>
 
     <!-- Congratulations Overlay (shown when student passes) -->
-    <div id="congratsOverlay" class="congrats-overlay" onclick="handleCongratsOutsideClick(event)">
+    <div id="congratsOverlay" class="congrats-overlay" onclick="handleCongratsOutsideClick(event)" style="display: none;">
       <div class="congrats-card">
         <button class="congrats-close-btn" onclick="closeCongratsCard(false)" title="إغلاق">
-          <svg viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"></path></svg>
         </button>
 
         <div class="congrats-stars">⭐ ⭐ ⭐</div>
@@ -2779,7 +2889,7 @@
 
         <div class="congrats-actions">
           <button class="congrats-details-btn" onclick="closeCongratsCard(true)">
-            <svg viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
             عرض كشف الدرجات التفصيلي
           </button>
           <button class="congrats-dismiss-btn" onclick="closeCongratsCard(false)">
@@ -2790,11 +2900,11 @@
     </div>
 
     <!-- 1. STUDENT SEARCH INTERFACE -->
-    <div id="searchView" class="search-card">
+    <div id="searchView" class="search-card" style="display: none;">
       <!-- Header -->
       <div class="search-header">
         <div class="badge-container">
-          <span id="badgeSchool" class="badge">مدرسة المشير عبد الحكيم عامر</span>
+          <span id="badgeSchool" class="badge">مدرسة المشير عبدالحكيم عامر</span>
         </div>
         <div class="header-text">
           <h1>ابحث عن النتيجة الآن</h1>
@@ -2808,16 +2918,9 @@
           <!-- Seat Number Input -->
           <div class="input-wrapper">
             <span class="input-icon">
-              <svg viewBox="0 0 24 24"><path d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" /></svg>
+              <svg viewBox="0 0 24 24"><path d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"></path></svg>
             </span>
-            <input
-              type="text"
-              id="searchSeatInput"
-              class="search-input"
-              placeholder="رقم الجلوس"
-              oninput="clearOtherInput('seat')"
-              autocomplete="off"
-            />
+            <input type="text" id="searchSeatInput" class="search-input" placeholder="رقم الجلوس" oninput="clearOtherInput('seat')" autocomplete="off">
           </div>
 
           <!-- OR Separator -->
@@ -2826,29 +2929,22 @@
           <!-- Student Name Input -->
           <div class="input-wrapper">
             <span class="input-icon">
-              <svg viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+              <svg viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
             </span>
-            <input
-              type="text"
-              id="searchNameInput"
-              class="search-input"
-              placeholder="اسم الطالب"
-              oninput="clearOtherInput('name')"
-              autocomplete="off"
-            />
+            <input type="text" id="searchNameInput" class="search-input" placeholder="اسم الطالب" oninput="clearOtherInput('name')" autocomplete="off">
           </div>
         </div>
 
         <!-- Hidden backward-compat input -->
-        <input type="hidden" id="searchInput" />
+        <input type="hidden" id="searchInput">
 
         <!-- Actions Row -->
         <div class="actions-row" style="margin-top: 16px;">
           <div class="tag-links">
-            <a onclick="fillQuickSearch('نتيجة الصف الثاني الثانوي')" class="tag-link">نتيجة الصف الثاني الثانوي <span id="tagYear">2026</span></a>
+            <a onclick="fillQuickSearch('نتيجة الصف الثاني الثانوي')" class="tag-link">نتيجة الصف الثاني الثانوي <span id="tagYear">2027</span></a>
           </div>
           <button type="submit" id="submitBtn" class="submit-button">
-            <svg viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+            <svg viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
             <span>عرض النتيجة</span>
           </button>
         </div>
@@ -2859,7 +2955,7 @@
 
       <!-- Error / Empty Results UI -->
       <div id="noResults" class="no-results">
-        <svg viewBox="0 0 24 24" width="40" height="40" stroke="var(--text-muted)" fill="none" stroke-width="1.5" style="display:block;margin:0 auto 12px;"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <svg viewBox="0 0 24 24" width="40" height="40" stroke="var(--text-muted)" fill="none" stroke-width="1.5" style="display:block;margin:0 auto 12px;"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
         <p id="searchErrorMessage">لم يتم العثور على أي نتائج تطابق بحثك.</p>
       </div>
 
@@ -2867,38 +2963,38 @@
       <div id="dbStatBar" class="stats-grid">
         <div class="stat-card total">
           <div class="stat-icon">
-            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"></path></svg>
           </div>
           <div class="stat-info">
             <span class="stat-label">إجمالي الطلاب</span>
-            <strong id="statTotalStudents" class="stat-value">0</strong>
+            <strong id="statTotalStudents" class="stat-value">26</strong>
           </div>
         </div>
         
         <div class="stat-card pass">
           <div class="stat-icon">
-            <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"></path></svg>
           </div>
           <div class="stat-info">
             <span class="stat-label">ناجح</span>
-            <strong id="statPassCount" class="stat-value">0</strong>
+            <strong id="statPassCount" class="stat-value">19</strong>
           </div>
         </div>
         
         <div class="stat-card fail">
           <div class="stat-icon">
-            <svg viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"></path></svg>
           </div>
           <div class="stat-info">
             <span class="stat-label">دور تاني</span>
-            <strong id="statFailCount" class="stat-value">0</strong>
+            <strong id="statFailCount" class="stat-value">7</strong>
           </div>
         </div>
       </div>
     </div>
 
     <!-- 1.1 TOP 10 STUDENTS VIEW -->
-    <div id="top10View" class="view-container">
+    <div id="top10View" class="view-container" style="display: none;">
       <div class="view-header">
         <h2>العشرة الأوائل</h2>
         <p>قائمة بأوائل الطلاب المتفوقين في قاعدة البيانات الحالية</p>
@@ -2906,8 +3002,46 @@
       
       <!-- Podium for top 3 -->
       <div class="podium-container" id="top10Podium">
-        <!-- Generated dynamically -->
-      </div>
+          <div class="podium-spot second">
+            <div class="podium-avatar-wrapper">
+              <div class="podium-avatar">🥈</div>
+              <span class="podium-rank-badge">2</span>
+            </div>
+            <div class="podium-student-name" title="محمود أحمد إسماعيل علي">محمود أحمد إسماعيل علي</div>
+            <div class="podium-student-score">348.7 درجة</div>
+            <span class="podium-student-pct">91.76%</span>
+            <div class="podium-pedestal">
+              <span class="podium-pedestal-num">2</span>
+            </div>
+          </div>
+        
+          <div class="podium-spot first">
+            <div class="podium-avatar-wrapper">
+              <span class="podium-crown">👑</span>
+              <div class="podium-avatar">🥇</div>
+              <span class="podium-rank-badge">1</span>
+            </div>
+            <div class="podium-student-name" title="عبدالله أحمد إسماعيل علي">عبدالله أحمد إسماعيل علي</div>
+            <div class="podium-student-score">374.5 درجة</div>
+            <span class="podium-student-pct">98.55%</span>
+            <div class="podium-pedestal">
+              <span class="podium-pedestal-num">1</span>
+            </div>
+          </div>
+        
+          <div class="podium-spot third">
+            <div class="podium-avatar-wrapper">
+              <div class="podium-avatar">🥉</div>
+              <span class="podium-rank-badge">3</span>
+            </div>
+            <div class="podium-student-name" title="سعيد مصطفى كمال البدري">سعيد مصطفى كمال البدري</div>
+            <div class="podium-student-score">325.7 درجة</div>
+            <span class="podium-student-pct">85.71%</span>
+            <div class="podium-pedestal">
+              <span class="podium-pedestal-num">3</span>
+            </div>
+          </div>
+        </div>
       
       <!-- List table for remaining 4-10 -->
       <div class="top-list-table-wrapper">
@@ -2922,22 +3056,80 @@
             </tr>
           </thead>
           <tbody id="top10TableBody">
-            <!-- Generated dynamically -->
+            <tr>
+              <td style="text-align: center;"><span class="top-rank-badge">4</span></td>
+              <td style="font-weight: 800; color: var(--accent);">شريف محمد عادل الشناوي</td>
+              <td style="color: var(--text-sub);">مدرسة المشير عبدالحكيم عامر</td>
+              <td style="text-align: center; font-weight: bold;">321.3</td>
+              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">84.55%</td>
+            </tr>
+          
+            <tr>
+              <td style="text-align: center;"><span class="top-rank-badge">5</span></td>
+              <td style="font-weight: 800; color: var(--accent);">طارق حسين كمال الشافعي</td>
+              <td style="color: var(--text-sub);">مدرسة المشير عبدالحكيم عامر</td>
+              <td style="text-align: center; font-weight: bold;">317.5</td>
+              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">83.55%</td>
+            </tr>
+          
+            <tr>
+              <td style="text-align: center;"><span class="top-rank-badge">6</span></td>
+              <td style="font-weight: 800; color: var(--accent);">محمود علاء حلمي</td>
+              <td style="color: var(--text-sub);">مدرسة المشير عبدالحكيم عامر</td>
+              <td style="text-align: center; font-weight: bold;">308.1</td>
+              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">81.08%</td>
+            </tr>
+          
+            <tr>
+              <td style="text-align: center;"><span class="top-rank-badge">7</span></td>
+              <td style="font-weight: 800; color: var(--accent);">عبد الرحمن محمود خالد الشناوي</td>
+              <td style="color: var(--text-sub);">مدرسة المشير عبدالحكيم عامر</td>
+              <td style="text-align: center; font-weight: bold;">308</td>
+              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">81.05%</td>
+            </tr>
+          
+            <tr>
+              <td style="text-align: center;"><span class="top-rank-badge">8</span></td>
+              <td style="font-weight: 800; color: var(--accent);">إبراهيم إبراهيم عبد العزيز الشافعي</td>
+              <td style="color: var(--text-sub);">مدرسة المشير عبدالحكيم عامر</td>
+              <td style="text-align: center; font-weight: bold;">304.9</td>
+              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">80.24%</td>
+            </tr>
+          
+            <tr>
+              <td style="text-align: center;"><span class="top-rank-badge">9</span></td>
+              <td style="font-weight: 800; color: var(--accent);">حسين حسين منصور عثمان</td>
+              <td style="color: var(--text-sub);">مدرسة المشير عبدالحكيم عامر</td>
+              <td style="text-align: center; font-weight: bold;">298.1</td>
+              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">78.45%</td>
+            </tr>
+          
+            <tr>
+              <td style="text-align: center;"><span class="top-rank-badge">10</span></td>
+              <td style="font-weight: 800; color: var(--accent);">عبد الله أحمد عمر سليم</td>
+              <td style="color: var(--text-sub);">مدرسة المشير عبدالحكيم عامر</td>
+              <td style="text-align: center; font-weight: bold;">290.4</td>
+              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">76.42%</td>
+            </tr>
           </tbody>
         </table>
       </div>
     </div>
 
     <!-- 1.2 HONOR ROLL VIEW -->
-    <div id="honorRollView" class="view-container">
+    <div id="honorRollView" class="view-container" style="display: none;">
       <!-- Grid View of Years/Uploads -->
-      <div id="honorRollGridView">
+      <div id="honorRollGridView" style="display: block;">
         <div class="view-header">
           <h2>لوحة الشرف</h2>
           <p>أرشيف متفوقي بكالوريا والسنوات الدراسية السابقة</p>
         </div>
         <div class="honor-grid" id="honorRollGridContainer">
-          <!-- Card components generated dynamically -->
+          <div class="honor-card" onclick="showHonorRollDetails('honor_1782366689105')">
+            <span class="honor-card-icon">🏅</span>
+            <div class="honor-card-title">أوائل الصف الثاني الثانوي 2026</div>
+            <div class="honor-card-sub">عدد الأوائل: 10 طالب وطالبة</div>
+          </div>
         </div>
       </div>
       
@@ -2945,16 +3137,54 @@
       <div id="honorRollDetailsView" style="display: none;">
         <div class="view-header">
           <button class="back-btn" onclick="backToHonorGrid()">
-            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" strokeWidth="2.5" style="transform: rotate(180deg);"><path d="M9 5l7 7-7 7" /></svg>
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" strokewidth="2.5" style="transform: rotate(180deg);"><path d="M9 5l7 7-7 7"></path></svg>
             <span>العودة للأرشيف</span>
           </button>
-          <h2 id="honorRollSelectedTitle">اسم لوحة الشرف</h2>
-          <p id="honorRollSelectedSub">أرشيف الطلاب المتفوقين الأوائل</p>
+          <h2 id="honorRollSelectedTitle">أوائل الصف الثاني الثانوي 2026</h2>
+          <p id="honorRollSelectedSub">أرشيف لوحة المتفوقين الأوائل لـ (أوائل الصف الثاني الثانوي 2026)</p>
         </div>
         
         <!-- Podium for top 3 -->
         <div class="podium-container" id="honorDetailsPodium">
-          <!-- Generated dynamically -->
+          <div class="podium-spot second">
+            <div class="podium-avatar-wrapper">
+              <div class="podium-avatar">🥈</div>
+              <span class="podium-rank-badge">2</span>
+            </div>
+            <div class="podium-student-name" title="محمود علاء حلمي">محمود علاء حلمي</div>
+            <div class="podium-student-score">357</div>
+            <span class="podium-student-pct">—</span>
+            <div class="podium-pedestal">
+              <span class="podium-pedestal-num">2</span>
+            </div>
+          </div>
+        
+          <div class="podium-spot first">
+            <div class="podium-avatar-wrapper">
+              <span class="podium-crown">👑</span>
+              <div class="podium-avatar">🥇</div>
+              <span class="podium-rank-badge">1</span>
+            </div>
+            <div class="podium-student-name" title="محمود أحمد إسماعيل علي">محمود أحمد إسماعيل علي</div>
+            <div class="podium-student-score">368</div>
+            <span class="podium-student-pct">—</span>
+            <div class="podium-pedestal">
+              <span class="podium-pedestal-num">1</span>
+            </div>
+          </div>
+        
+          <div class="podium-spot third">
+            <div class="podium-avatar-wrapper">
+              <div class="podium-avatar">🥉</div>
+              <span class="podium-rank-badge">3</span>
+            </div>
+            <div class="podium-student-name" title="طارق حسين كمال الشافعي">طارق حسين كمال الشافعي</div>
+            <div class="podium-student-score">355</div>
+            <span class="podium-student-pct">—</span>
+            <div class="podium-pedestal">
+              <span class="podium-pedestal-num">3</span>
+            </div>
+          </div>
         </div>
         
         <!-- Table for 4-10 -->
@@ -2970,33 +3200,81 @@
               </tr>
             </thead>
             <tbody id="honorDetailsTableBody">
-              <!-- Generated dynamically -->
-            </tbody>
+            <tr>
+              <td style="text-align: center;"><span class="top-rank-badge">4</span></td>
+              <td style="font-weight: 800; color: var(--accent);">أحمد حسين منصور نصر</td>
+              <td style="text-align: center; color: var(--text-sub); font-weight: bold;">—</td>
+              <td style="text-align: center; font-weight: bold;">352</td>
+              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">—</td>
+            </tr>
+          
+            <tr>
+              <td style="text-align: center;"><span class="top-rank-badge">5</span></td>
+              <td style="font-weight: 800; color: var(--accent);">طارق طه كمال عثمان</td>
+              <td style="text-align: center; color: var(--text-sub); font-weight: bold;">—</td>
+              <td style="text-align: center; font-weight: bold;">348</td>
+              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">—</td>
+            </tr>
+          
+            <tr>
+              <td style="text-align: center;"><span class="top-rank-badge">6</span></td>
+              <td style="font-weight: 800; color: var(--accent);">عبد الله أحمد عمر سليم</td>
+              <td style="text-align: center; color: var(--text-sub); font-weight: bold;">—</td>
+              <td style="text-align: center; font-weight: bold;">345</td>
+              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">—</td>
+            </tr>
+          
+            <tr>
+              <td style="text-align: center;"><span class="top-rank-badge">7</span></td>
+              <td style="font-weight: 800; color: var(--accent);">عبد الرحمن محمود خالد الشناوي</td>
+              <td style="text-align: center; color: var(--text-sub); font-weight: bold;">—</td>
+              <td style="text-align: center; font-weight: bold;">340</td>
+              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">—</td>
+            </tr>
+          
+            <tr>
+              <td style="text-align: center;"><span class="top-rank-badge">8</span></td>
+              <td style="font-weight: 800; color: var(--accent);">سعيد مصطفى كمال البدري</td>
+              <td style="text-align: center; color: var(--text-sub); font-weight: bold;">—</td>
+              <td style="text-align: center; font-weight: bold;">335</td>
+              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">—</td>
+            </tr>
+          
+            <tr>
+              <td style="text-align: center;"><span class="top-rank-badge">9</span></td>
+              <td style="font-weight: 800; color: var(--accent);">شريف مصطفى خالد الشناوي</td>
+              <td style="text-align: center; color: var(--text-sub); font-weight: bold;">—</td>
+              <td style="text-align: center; font-weight: bold;">333</td>
+              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">—</td>
+            </tr>
+          
+            <tr>
+              <td style="text-align: center;"><span class="top-rank-badge">10</span></td>
+              <td style="font-weight: 800; color: var(--accent);">إبراهيم إبراهيم عبد العزيز الشافعي</td>
+              <td style="text-align: center; color: var(--text-sub); font-weight: bold;">—</td>
+              <td style="text-align: center; font-weight: bold;">320</td>
+              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">—</td>
+            </tr>
+          </tbody>
           </table>
         </div>
       </div>
     </div>
 
     <!-- 2. ADMIN PANEL INTERFACE -->
-    <div id="adminView" class="admin-container">
+    <div id="adminView" class="admin-container" style="display: block;">
       <div class="admin-header">
         <button class="back-btn" onclick="toggleAdminMode(false)">
-          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" strokeWidth="2.5"><path d="M9 5l7 7-7 7" /></svg>
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" strokewidth="2.5"><path d="M9 5l7 7-7 7"></path></svg>
           <span>العودة لصفحة البحث</span>
         </button>
         <h1>لوحة تحكم مدير النظام</h1>
       </div>
 
       <!-- Login View -->
-      <div id="adminLoginCard" class="login-card">
+      <div id="adminLoginCard" class="login-card" style="display: none;">
         <h2>تسجيل دخول الإدارة</h2>
-        <input
-          type="password"
-          id="adminPasswordInput"
-          placeholder="أدخل كلمة مرور المدير"
-          class="login-input"
-          onkeydown="if(event.key === 'Enter') loginAdmin()"
-        />
+        <input type="password" id="adminPasswordInput" placeholder="أدخل كلمة مرور المدير" class="login-input" onkeydown="if(event.key === 'Enter') loginAdmin()">
         <p id="loginError" style="color: var(--accent-fail); font-size: 13px; font-weight: bold; display: none;">كلمة المرور غير صحيحة.</p>
         <button onclick="loginAdmin()" class="submit-button" style="align-self: center; margin-top: 10px;">
           دخول
@@ -3004,33 +3282,23 @@
       </div>
 
       <!-- Logged in controls -->
-      <div id="adminDashboard" style="display: none;">
+      <div id="adminDashboard" style="display: block;">
         <div class="admin-nav">
-          <button id="navUpload" class="admin-nav-btn active" onclick="switchAdminTab('upload')">رفع النتائج (Excel)</button>
-          <button id="navSettings" class="admin-nav-btn" onclick="switchAdminTab('settings')">الإعدادات العامة والتصدير</button>
+          <button id="navUpload" class="admin-nav-btn" onclick="switchAdminTab('upload')">رفع النتائج (Excel)</button>
+          <button id="navSettings" class="admin-nav-btn active" onclick="switchAdminTab('settings')">الإعدادات العامة والتصدير</button>
           <button id="navHonor" class="admin-nav-btn" onclick="switchAdminTab('honor')">لوحة الشرف</button>
           <button class="admin-nav-btn" onclick="logoutAdmin()" style="color: var(--accent-fail); margin-right: auto;">تسجيل الخروج</button>
         </div>
 
         <!-- Tab 1: Upload Excel -->
-        <div id="adminTabUpload" class="upload-section">
-          <div
-            id="dropZone"
-            class="drag-drop-zone"
-            onclick="document.getElementById('excelFile').click()"
-          >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+        <div id="adminTabUpload" class="upload-section" style="display: none;">
+          <div id="dropZone" class="drag-drop-zone" onclick="document.getElementById('excelFile').click()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokewidth="2">
+              <path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
             </svg>
             <h3>اسحب وأسقط ملف Excel هنا، أو انقر للتصفح</h3>
             <p>يدعم ملفات XLS, XLSX, CSV</p>
-            <input
-              type="file"
-              id="excelFile"
-              style="display: none;"
-              accept=".xlsx, .xls, .csv"
-              onchange="handleFileSelect(event)"
-            />
+            <input type="file" id="excelFile" style="display: none;" accept=".xlsx, .xls, .csv" onchange="handleFileSelect(event)">
           </div>
 
           <p id="uploadError" style="color: var(--accent-fail); margin-top: 16px; font-weight: bold; display: none;"></p>
@@ -3101,14 +3369,14 @@
         </div>
 
         <!-- Tab 2: Settings and Export -->
-        <div id="adminTabSettings" class="settings-form">
+        <div id="adminTabSettings" class="settings-form" style="display: flex;">
 
           <!-- Section: Portal Display -->
           <div style="padding: 16px 20px; background: var(--bg-input); border: 1px solid var(--border-color); border-radius: var(--border-radius-sm); margin-bottom: 4px;">
             <p style="font-size: 12px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px;">🎨 واجهة الموقع</p>
             <div class="form-group">
               <label>العنوان الرئيسي للبوابة (الـ Hero Title)</label>
-              <input type="text" id="setHeroTitle" class="form-input" placeholder="مثال: نتيجة الصف الثاني الثانوي 2026" />
+              <input type="text" id="setHeroTitle" class="form-input" placeholder="مثال: نتيجة الصف الثاني الثانوي 2026">
               <small style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">هذا هو النص الكبير الظاهر في أعلى صفحة البحث للطلاب.</small>
             </div>
           </div>
@@ -3127,7 +3395,7 @@
               </div>
               <p style="font-size: 13px; color: var(--text-sub); text-align: center; margin: 0 0 8px 0; font-weight: 700;">هذه البيانات محمية بكلمة مرور خاصة</p>
               <div style="display: flex; gap: 8px; width: 100%; max-width: 320px;">
-                <input type="password" id="instPasswordInput" class="form-input" placeholder="كلمة مرور بيانات المؤسسة" style="text-align: center;" onkeydown="if(event.key==='Enter') unlockInstitutionData()" />
+                <input type="password" id="instPasswordInput" class="form-input" placeholder="كلمة مرور بيانات المؤسسة" style="text-align: center;" onkeydown="if(event.key==='Enter') unlockInstitutionData()">
                 <button type="button" onclick="unlockInstitutionData()" class="submit-button" style="padding: 10px 20px; font-size: 13px; font-weight: 700; white-space: nowrap; height: 43px; margin: 0;">فتح القفل</button>
               </div>
               <p id="instUnlockError" style="color: #ef4444; font-size: 12px; font-weight: 700; display: none; margin: 4px 0 0 0;">⚠️ كلمة المرور غير صحيحة!</p>
@@ -3137,23 +3405,23 @@
             <div id="institutionFieldsContainer" style="display: none; flex-direction: column; gap: 16px;">
               <div class="form-group">
                 <label>اسم المدرسة الافتراضي</label>
-                <input type="text" id="setSchoolName" class="form-input" required />
+                <input type="text" id="setSchoolName" class="form-input" required="">
               </div>
               <div class="form-group">
                 <label>نص الشارة العلوية (اسم المدرسة)</label>
-                <input type="text" id="setSchoolBadge" class="form-input" required />
+                <input type="text" id="setSchoolBadge" class="form-input" required="">
               </div>
               <div class="form-group">
                 <label>المحافظة</label>
-                <input type="text" id="setGov" class="form-input" required />
+                <input type="text" id="setGov" class="form-input" required="">
               </div>
               <div class="form-group">
                 <label>العام الدراسي</label>
-                <input type="text" id="setYear" class="form-input" required />
+                <input type="text" id="setYear" class="form-input" required="">
               </div>
               <div class="form-group">
                 <label>تغيير كلمة مرور بيانات المؤسسة (اتركه فارغاً للاحتفاظ بكلمة المرور الحالية)</label>
-                <input type="password" id="setNewInstPassword" class="form-input" placeholder="كلمة مرور جديدة لبيانات المؤسسة" />
+                <input type="password" id="setNewInstPassword" class="form-input" placeholder="كلمة مرور جديدة لبيانات المؤسسة">
               </div>
             </div>
           </div>
@@ -3163,22 +3431,22 @@
             <p style="font-size: 12px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px;">⚙️ الدرجات والأمان</p>
             <div class="form-group">
               <label>نسبة النجاح (%)</label>
-              <input type="number" id="setPassingPercentage" class="form-input" required />
+              <input type="number" id="setPassingPercentage" class="form-input" required="">
             </div>
             <div class="form-group">
               <label>تغيير كلمة مرور المدير (اتركه فارغاً للاحتفاظ بكلمة المرور الحالية)</label>
-              <input type="password" id="setNewPassword" class="form-input" placeholder="كلمة مرور جديدة" />
+              <input type="password" id="setNewPassword" class="form-input" placeholder="كلمة مرور جديدة">
             </div>
           </div>
 
           <p id="settingsStatus" style="font-weight: bold; font-size: 14px; display: none;"></p>
           
           <button onclick="saveGeneralSettings(event)" class="submit-button" style="align-self: flex-start;">
-            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2.5"><path d="M5 13l4 4L19 7"></path></svg>
             حفظ الإعدادات
           </button>
 
-          <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 24px 0;" />
+          <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 24px 0;">
 
           <h3 style="font-size: 16px; font-weight: 800; margin-bottom: 6px; color: var(--primary);">تصدير الموقع ببيانات الطلاب المدمجة</h3>
           <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
@@ -3187,9 +3455,44 @@
           </p>
           
           <button onclick="exportSingleFileApp()" class="export-btn">
-            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" strokeWidth="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m4-5l5 5 5-5m-5 5V3"/></svg>
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" strokewidth="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m4-5l5 5 5-5m-5 5V3"></path></svg>
             <span>تصدير الموقع مدمجاً ببيانات الطلاب</span>
           </button>
+
+          <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 24px 0;">
+
+          <h3 style="font-size: 16px; font-weight: 800; margin-bottom: 6px; color: var(--accent);">🚀 النشر والمزامنة المباشرة مع GitHub Pages</h3>
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
+            اربط موقعك بمستودع GitHub الخاص بك لنشر وتحديث النتائج واللوحات مباشرة على الإنترنت بضغطة زر واحدة دون الحاجة لتنزيل ورفع الملف يدوياً!
+          </p>
+
+          <div style="padding: 16px 20px; background: var(--bg-input); border: 1px solid var(--border-color); border-radius: var(--border-radius-sm); margin-bottom: 16px; display: flex; flex-direction: column; gap: 12px;">
+            <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+              <div class="form-group" style="flex: 1 1 200px; margin-bottom: 0;">
+                <label style="font-size: 11px;">اسم مستخدم GitHub (Username)</label>
+                <input type="text" id="githubUsername" class="form-input" placeholder="مثال: mhmoudteleba1-cell" style="font-family: monospace; font-size: 13px;">
+              </div>
+              <div class="form-group" style="flex: 1 1 200px; margin-bottom: 0;">
+                <label style="font-size: 11px;">اسم المستودع (Repository Name)</label>
+                <input type="text" id="githubRepo" class="form-input" placeholder="مثال: school-results12" style="font-family: monospace; font-size: 13px;">
+              </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label style="font-size: 11px;">رمز الدخول الخاص بـ GitHub (Personal Access Token - classic)</label>
+              <input type="password" id="githubToken" class="form-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" style="font-family: monospace; font-size: 13px;">
+              <small style="font-size: 11px; color: var(--text-muted); margin-top: 4px; display: block;">
+                يمكنك إنشاء هذا الرمز من إعدادات GitHub (Developer settings) مع تفعيل صلاحية <code style="color: var(--accent);">repo</code> ليتمكن الموقع من تحديث نفسه.
+              </small>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <button onclick="publishToGitHub()" class="submit-button" style="background: var(--accent); color: white; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; width: auto; align-self: flex-start; margin: 0; box-shadow: var(--shadow-button);">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2.5"><path d="M12 2v20m-10-10h20m-6-6l6 6-6 6"></path></svg>
+              <span>نشر وحفظ التعديلات مباشرة على الإنترنت</span>
+            </button>
+            <p id="githubPublishStatus" style="font-size: 13px; font-weight: 700; display: none; line-height: 1.6; padding: 12px; border-radius: var(--border-radius-sm); background: rgba(255, 255, 255, 0.03); border-color: var(--border-color); margin: 0px; color: var(--text-sub);"></p>
+          </div>
         </div>
 
         <!-- Tab 3: Honor Roll Management -->
@@ -3202,35 +3505,24 @@
             <div style="display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 16px;">
               <div class="form-group" style="flex: 2 1 300px; margin-bottom: 0;">
                 <label>عنوان لوحة الشرف (الصف الدراسي والعام)</label>
-                <input type="text" id="honorTitleInput" class="form-input" placeholder="مثال: أوائل الصف الأول الثانوي 2026" />
+                <input type="text" id="honorTitleInput" class="form-input" placeholder="مثال: أوائل الصف الأول الثانوي 2026">
                 <small style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">هذا العنوان سيظهر على بطاقة لوحة الشرف في الأرشيف.</small>
               </div>
               <div class="form-group" style="flex: 1 1 150px; margin-bottom: 0;">
                 <label>النهاية العظمى (المجموع الكلي)</label>
-                <input type="number" id="honorMaxScoreInput" class="form-input" placeholder="مثال: 410" oninput="recalculateHonorPercentages()" />
+                <input type="number" id="honorMaxScoreInput" class="form-input" placeholder="مثال: 410" oninput="recalculateHonorPercentages()">
                 <small style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">لحساب وعرض النسب المئوية للطلاب.</small>
               </div>
             </div>
 
             <!-- Honor Drag Drop Zone -->
-            <div
-              id="honorDropZone"
-              class="drag-drop-zone"
-              onclick="document.getElementById('honorExcelFile').click()"
-              style="margin-bottom: 16px;"
-            >
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+            <div id="honorDropZone" class="drag-drop-zone" onclick="document.getElementById('honorExcelFile').click()" style="margin-bottom: 16px;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokewidth="2">
+                <path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
               </svg>
               <h3>اسحب وأسقط ملف Excel هنا، أو انقر للتصفح</h3>
               <p>يدعم ملفات الأوائل XLS, XLSX, CSV</p>
-              <input
-                type="file"
-                id="honorExcelFile"
-                style="display: none;"
-                accept=".xlsx, .xls, .csv"
-                onchange="handleHonorFileSelect(event)"
-              />
+              <input type="file" id="honorExcelFile" style="display: none;" accept=".xlsx, .xls, .csv" onchange="handleHonorFileSelect(event)">
             </div>
             
             <p id="honorUploadError" style="color: var(--accent-fail); font-weight: bold; display: none; margin-bottom: 12px;"></p>
@@ -3274,8 +3566,17 @@
                   </tr>
                 </thead>
                 <tbody id="honorMgmtTableBody">
-                  <!-- Honor roll lists listed here -->
-                </tbody>
+          <tr>
+            <td style="font-weight: bold;">أوائل الصف الثاني الثانوي 2026</td>
+            <td style="text-align: center; color: var(--text-muted);">10 طالب</td>
+            <td style="text-align: center;">
+              <button onclick="deleteHonorRoll('honor_1782366689105')" class="delete-honor-btn">
+                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" strokewidth="2.5" style="vertical-align: middle;"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                <span>حذف</span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
               </table>
             </div>
           </div>
@@ -3285,10 +3586,8 @@
 
     <!-- Lock icon trigger for admin mode -->
     <a href="#" class="admin-trigger" onclick="event.preventDefault(); toggleAdminMode()">
-      <svg viewBox="0 0 24 24" id="adminTriggerIcon">
-        <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-      </svg>
-      <span id="adminTriggerText">لوحة تحكم الإدارة</span>
+      <svg viewBox="0 0 24 24" id="adminTriggerIcon"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+      <span id="adminTriggerText">صفحة الطلاب</span>
     </a>
 
   </div>
@@ -3298,17 +3597,17 @@
 
   <!-- 3. STUDENT REPORT CARD RESULT MODAL -->
 
-  <div id="resultModal" class="modal-overlay" onclick="closeModal()">
+  <div id="resultModal" class="modal-overlay" onclick="closeModal()" style="display: none;">
     <div class="modal-content" onclick="event.stopPropagation()">
       <div class="modal-header">
         <div style="display:flex;align-items:center;gap:12px;">
           <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#6a3de8);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-            <svg viewBox="0 0 24 24" width="18" height="18" stroke="#fff" fill="none" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            <svg viewBox="0 0 24 24" width="18" height="18" stroke="#fff" fill="none" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
           </div>
           <h2>بطاقة درجات الطالب</h2>
         </div>
         <button class="close-btn" onclick="closeModal()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 18L18 6M6 6l12 12" /></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
       </div>
 
@@ -3320,20 +3619,20 @@
           <!-- Watermark educational crest -->
           <div class="report-watermark-container">
             <svg viewBox="0 0 120 120" class="report-watermark-svg">
-              <circle cx="60" cy="60" r="54" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4,4" />
-              <circle cx="60" cy="60" r="48" fill="none" stroke="currentColor" stroke-width="0.75" />
-              <path d="M 38,55 C 28,45 28,25 38,15 M 82,55 C 92,45 92,25 82,15" fill="none" stroke="currentColor" stroke-width="1" />
+              <circle cx="60" cy="60" r="54" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4,4"></circle>
+              <circle cx="60" cy="60" r="48" fill="none" stroke="currentColor" stroke-width="0.75"></circle>
+              <path d="M 38,55 C 28,45 28,25 38,15 M 82,55 C 92,45 92,25 82,15" fill="none" stroke="currentColor" stroke-width="1"></path>
               <!-- Shield -->
-              <path d="M 45,35 L 75,35 C 75,35 78,55 75,70 C 70,82 60,88 60,88 C 60,88 50,82 45,70 C 42,55 45,35 45,35 Z" fill="none" stroke="currentColor" stroke-width="1.5" />
+              <path d="M 45,35 L 75,35 C 75,35 78,55 75,70 C 70,82 60,88 60,88 C 60,88 50,82 45,70 C 42,55 45,35 45,35 Z" fill="none" stroke="currentColor" stroke-width="1.5"></path>
               <!-- Open Book -->
-              <path d="M 50,60 Q 55,55 60,60 Q 65,55 70,60 L 70,48 Q 65,43 60,48 Q 55,43 50,48 Z" fill="none" stroke="currentColor" stroke-width="1" />
-              <line x1="60" y1="48" x2="60" y2="60" stroke="currentColor" stroke-width="1" />
+              <path d="M 50,60 Q 55,55 60,60 Q 65,55 70,60 L 70,48 Q 65,43 60,48 Q 55,43 50,48 Z" fill="none" stroke="currentColor" stroke-width="1"></path>
+              <line x1="60" y1="48" x2="60" y2="60" stroke="currentColor" stroke-width="1"></line>
               <!-- Graduation cap on top of shield -->
-              <polygon points="60,20 75,25 60,30 45,25" fill="none" stroke="currentColor" stroke-width="1" />
-              <rect x="58" y="25" width="4" height="6" fill="none" stroke="currentColor" stroke-width="1" />
-              <path d="M 70,26.5 L 70,33 C 70,33 68,35 68,37" fill="none" stroke="currentColor" stroke-width="1" />
+              <polygon points="60,20 75,25 60,30 45,25" fill="none" stroke="currentColor" stroke-width="1"></polygon>
+              <rect x="58" y="25" width="4" height="6" fill="none" stroke="currentColor" stroke-width="1"></rect>
+              <path d="M 70,26.5 L 70,33 C 70,33 68,35 68,37" fill="none" stroke="currentColor" stroke-width="1"></path>
               <!-- Text in watermark -->
-              <path id="watermarkTextPath" d="M 22,60 A 38,38 0 0,0 98,60" fill="none" />
+              <path id="watermarkTextPath" d="M 22,60 A 38,38 0 0,0 98,60" fill="none"></path>
               <text font-family="'Cairo', sans-serif" font-size="5" font-weight="bold" fill="currentColor" letter-spacing="0.5">
                 <textPath href="#watermarkTextPath" startOffset="50%" text-anchor="middle">وزارة التربية والتعليم والتعليم الفني</textPath>
               </text>
@@ -3343,32 +3642,32 @@
           <div class="report-card-inner">
             <!-- Corner decorations for print -->
             <svg class="print-corner top-right" viewBox="0 0 100 100" style="color: #c5a880;">
-              <path d="M100,0 L100,40 L97,40 L97,12 L60,12 L60,9 L91,9 L91,0 Z" fill="currentColor" />
-              <path d="M93,16 L93,32 L91,32 L91,16 Z" fill="currentColor" />
-              <path d="M72,16 L88,16 L88,18 L72,18 Z" fill="currentColor" />
-              <rect x="92" y="5" width="4" height="4" fill="currentColor" />
-              <circle cx="85" cy="5" r="2" fill="currentColor" />
+              <path d="M100,0 L100,40 L97,40 L97,12 L60,12 L60,9 L91,9 L91,0 Z" fill="currentColor"></path>
+              <path d="M93,16 L93,32 L91,32 L91,16 Z" fill="currentColor"></path>
+              <path d="M72,16 L88,16 L88,18 L72,18 Z" fill="currentColor"></path>
+              <rect x="92" y="5" width="4" height="4" fill="currentColor"></rect>
+              <circle cx="85" cy="5" r="2" fill="currentColor"></circle>
             </svg>
             <svg class="print-corner top-left" viewBox="0 0 100 100" style="color: #c5a880; transform: scaleX(-1);">
-              <path d="M100,0 L100,40 L97,40 L97,12 L60,12 L60,9 L91,9 L91,0 Z" fill="currentColor" />
-              <path d="M93,16 L93,32 L91,32 L91,16 Z" fill="currentColor" />
-              <path d="M72,16 L88,16 L88,18 L72,18 Z" fill="currentColor" />
-              <rect x="92" y="5" width="4" height="4" fill="currentColor" />
-              <circle cx="85" cy="5" r="2" fill="currentColor" />
+              <path d="M100,0 L100,40 L97,40 L97,12 L60,12 L60,9 L91,9 L91,0 Z" fill="currentColor"></path>
+              <path d="M93,16 L93,32 L91,32 L91,16 Z" fill="currentColor"></path>
+              <path d="M72,16 L88,16 L88,18 L72,18 Z" fill="currentColor"></path>
+              <rect x="92" y="5" width="4" height="4" fill="currentColor"></rect>
+              <circle cx="85" cy="5" r="2" fill="currentColor"></circle>
             </svg>
             <svg class="print-corner bottom-right" viewBox="0 0 100 100" style="color: #c5a880; transform: scaleY(-1);">
-              <path d="M100,0 L100,40 L97,40 L97,12 L60,12 L60,9 L91,9 L91,0 Z" fill="currentColor" />
-              <path d="M93,16 L93,32 L91,32 L91,16 Z" fill="currentColor" />
-              <path d="M72,16 L88,16 L88,18 L72,18 Z" fill="currentColor" />
-              <rect x="92" y="5" width="4" height="4" fill="currentColor" />
-              <circle cx="85" cy="5" r="2" fill="currentColor" />
+              <path d="M100,0 L100,40 L97,40 L97,12 L60,12 L60,9 L91,9 L91,0 Z" fill="currentColor"></path>
+              <path d="M93,16 L93,32 L91,32 L91,16 Z" fill="currentColor"></path>
+              <path d="M72,16 L88,16 L88,18 L72,18 Z" fill="currentColor"></path>
+              <rect x="92" y="5" width="4" height="4" fill="currentColor"></rect>
+              <circle cx="85" cy="5" r="2" fill="currentColor"></circle>
             </svg>
             <svg class="print-corner bottom-left" viewBox="0 0 100 100" style="color: #c5a880; transform: scale(-1);">
-              <path d="M100,0 L100,40 L97,40 L97,12 L60,12 L60,9 L91,9 L91,0 Z" fill="currentColor" />
-              <path d="M93,16 L93,32 L91,32 L91,16 Z" fill="currentColor" />
-              <path d="M72,16 L88,16 L88,18 L72,18 Z" fill="currentColor" />
-              <rect x="92" y="5" width="4" height="4" fill="currentColor" />
-              <circle cx="85" cy="5" r="2" fill="currentColor" />
+              <path d="M100,0 L100,40 L97,40 L97,12 L60,12 L60,9 L91,9 L91,0 Z" fill="currentColor"></path>
+              <path d="M93,16 L93,32 L91,32 L91,16 Z" fill="currentColor"></path>
+              <path d="M72,16 L88,16 L88,18 L72,18 Z" fill="currentColor"></path>
+              <rect x="92" y="5" width="4" height="4" fill="currentColor"></rect>
+              <circle cx="85" cy="5" r="2" fill="currentColor"></circle>
             </svg>
 
             <!-- Logo & School header info -->
@@ -3380,7 +3679,7 @@
               </div>
               <div>
                 <span id="cardStatusBadge" class="status-badge pass">
-                  <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" strokeWidth="3"><path d="M5 13l4 4L19 7" /></svg>
+                  <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" strokewidth="3"><path d="M5 13l4 4L19 7"></path></svg>
                   <span id="cardStatusText">ناجح</span>
                 </span>
               </div>
@@ -3430,7 +3729,7 @@
         <!-- Actions like Print -->
         <div class="report-actions">
           <button class="print-btn" onclick="window.print()">
-            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" strokeWidth="2.5"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2m-2-9v10H8V9h8z" /></svg>
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" strokewidth="2.5"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2m-2-9v10H8V9h8z"></path></svg>
             <span>طباعة الشهادة</span>
           </button>
         </div>
@@ -3455,7 +3754,7 @@
   </footer>
 
   <!-- EMBEDDED DATABASE PLACEHOLDER (Do not delete or change this exact line. It is used during export) -->
-  <script id="database-script">window.STUDENT_DATABASE = []; window.PORTAL_SETTINGS = {};</script>
+  <script id="database-script">window.STUDENT_DATABASE = [{"seatNumber":"343","name":"محمود أحمد إسماعيل علي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":75.2,"الرياضيات":54.3,"اللغة الإنجليزية":59.1,"الفيزياء":56.2,"التاريخ":47.7,"جغرافيا":56.2},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"جغرافيا":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"جغرافيا":false},"total":348.7,"maxTotal":380,"percentage":91.76,"status":"ناجح"},{"seatNumber":"344","name":"محمود علاء حلمي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":65,"الرياضيات":47.1,"اللغة الإنجليزية":50,"الفيزياء":52,"التاريخ":45,"جغرافيا":49},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"جغرافيا":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"جغرافيا":false},"total":308.1,"maxTotal":380,"percentage":81.08,"status":"ناجح"},{"seatNumber":"20503","name":"طارق حسين كمال الشافعي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":61.9,"الرياضيات":59.3,"اللغة الإنجليزية":51.9,"الفيزياء":57,"التاريخ":43.7,"جغرافيا":43.7},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"جغرافيا":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"جغرافيا":false},"total":317.5,"maxTotal":380,"percentage":83.55,"status":"ناجح"},{"seatNumber":"20504","name":"أحمد حسين منصور نصر","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":55,"الرياضيات":59.4,"اللغة الإنجليزية":31.7,"الفيزياء":40.2,"التاريخ":25.9,"جغرافيا":25.9},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"جغرافيا":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"جغرافيا":false},"total":238.1,"maxTotal":380,"percentage":62.66,"status":"دور تاني"},{"seatNumber":"20505","name":"طارق طه كمال عثمان","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":49.9,"الرياضيات":35.4,"اللغة الإنجليزية":55.2,"الفيزياء":37.3,"التاريخ":54.4,"جغرافيا":54.4},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"جغرافيا":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"جغرافيا":false},"total":286.6,"maxTotal":380,"percentage":75.42,"status":"ناجح"},{"seatNumber":"20506","name":"عبد الله أحمد عمر سليم","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":69.5,"الرياضيات":51.2,"اللغة الإنجليزية":27.8,"الفيزياء":58.3,"التاريخ":41.8,"جغرافيا":41.8},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"جغرافيا":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"جغرافيا":false},"total":290.4,"maxTotal":380,"percentage":76.42,"status":"دور تاني"},{"seatNumber":"20507","name":"عبد الرحمن محمود خالد الشناوي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":57.8,"الرياضيات":46.6,"اللغة الإنجليزية":46.7,"الفيزياء":46.7,"التاريخ":55.1,"جغرافيا":55.1},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"جغرافيا":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"جغرافيا":false},"total":308,"maxTotal":380,"percentage":81.05,"status":"ناجح"},{"seatNumber":"20508","name":"سعيد مصطفى كمال البدري","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":66.3,"الرياضيات":59.1,"اللغة الإنجليزية":42.1,"الفيزياء":47.8,"التاريخ":55.2,"جغرافيا":55.2},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"جغرافيا":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"جغرافيا":false},"total":325.7,"maxTotal":380,"percentage":85.71,"status":"ناجح"},{"seatNumber":"20509","name":"شريف مصطفى خالد الشناوي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":50.5,"الرياضيات":50.1,"اللغة الإنجليزية":45.6,"الفيزياء":57.1,"التاريخ":35.1,"جغرافيا":35.1},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"جغرافيا":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"جغرافيا":false},"total":273.5,"maxTotal":380,"percentage":71.97,"status":"ناجح"},{"seatNumber":"20510","name":"إبراهيم إبراهيم عبد العزيز الشافعي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":44.3,"الرياضيات":57.3,"اللغة الإنجليزية":42.5,"الفيزياء":59.6,"التاريخ":50.6,"جغرافيا":50.6},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"جغرافيا":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"جغرافيا":false},"total":304.9,"maxTotal":380,"percentage":80.24,"status":"ناجح"},{"seatNumber":"20511","name":"عبد الله سعيد منصور عثمان","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":77.1,"الرياضيات":53.4,"اللغة الإنجليزية":42.6,"الفيزياء":31.1,"التاريخ":40,"جغرافيا":40},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"جغرافيا":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"جغرافيا":false},"total":284.2,"maxTotal":380,"percentage":74.79,"status":"ناجح"},{"seatNumber":"20512","name":"عبد الله إبراهيم شريف الجارحي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":54.9,"الرياضيات":49.9,"اللغة الإنجليزية":39.1,"الفيزياء":50.5,"التاريخ":33.3,"جغرافيا":33.3},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"جغرافيا":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"جغرافيا":false},"total":261,"maxTotal":380,"percentage":68.68,"status":"ناجح"},{"seatNumber":"20513","name":"عماد محمود خالد جاد","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":62.1,"الرياضيات":34.5,"اللغة الإنجليزية":54,"الفيزياء":54.2,"التاريخ":38.5,"جغرافيا":38.5},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"جغرافيا":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"جغرافيا":false},"total":281.8,"maxTotal":380,"percentage":74.16,"status":"ناجح"},{"seatNumber":"20514","name":"حسين حسن منصور زكي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":72,"الرياضيات":32.8,"اللغة الإنجليزية":37.9,"الفيزياء":43.5,"التاريخ":38.6,"جغرافيا":38.6},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"جغرافيا":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"جغرافيا":false},"total":263.4,"maxTotal":380,"percentage":69.32,"status":"ناجح"},{"seatNumber":"20515","name":"عبد الله محمود سليمان جاد","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":71.6,"الرياضيات":58.8,"اللغة الإنجليزية":39.9,"الفيزياء":26.2,"التاريخ":38.4,"جغرافيا":38.4},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"جغرافيا":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"جغرافيا":false},"total":273.3,"maxTotal":380,"percentage":71.92,"status":"دور تاني"},{"seatNumber":"20516","name":"حسن طه عبد الرحمن جاد","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":64.5,"الرياضيات":42.9,"اللغة الإنجليزية":56.4,"الفيزياء":34.9,"التاريخ":31.9,"جغرافيا":31.9},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"جغرافيا":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"جغرافيا":false},"total":262.5,"maxTotal":380,"percentage":69.08,"status":"ناجح"},{"seatNumber":"20517","name":"شريف محمد عادل الشناوي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":70.1,"الرياضيات":47.2,"اللغة الإنجليزية":51.9,"الفيزياء":40.1,"التاريخ":56,"جغرافيا":56},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"جغرافيا":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"جغرافيا":false},"total":321.3,"maxTotal":380,"percentage":84.55,"status":"ناجح"},{"seatNumber":"20518","name":"هاني أحمد عبد الرحمن نصر","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":56.2,"الرياضيات":32.4,"اللغة الإنجليزية":29.2,"الفيزياء":45.5,"التاريخ":26,"جغرافيا":26},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"جغرافيا":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"جغرافيا":false},"total":215.3,"maxTotal":380,"percentage":56.66,"status":"دور تاني"},{"seatNumber":"20519","name":"مصطفى إبراهيم عبد الرحمن الشافعي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":69.8,"الرياضيات":39.7,"اللغة الإنجليزية":25.3,"الفيزياء":38.5,"التاريخ":31.6,"جغرافيا":31.6},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"جغرافيا":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"جغرافيا":false},"total":236.5,"maxTotal":380,"percentage":62.24,"status":"دور تاني"},{"seatNumber":"20520","name":"إبراهيم حسين عادل زكي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":49.7,"الرياضيات":53.8,"اللغة الإنجليزية":38.4,"الفيزياء":33.6,"التاريخ":41.9,"جغرافيا":41.9},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"جغرافيا":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"جغرافيا":false},"total":259.3,"maxTotal":380,"percentage":68.24,"status":"ناجح"},{"seatNumber":"20521","name":"مصطفى طه منصور جاد","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":44.9,"الرياضيات":26.1,"اللغة الإنجليزية":55.7,"الفيزياء":33.2,"التاريخ":59.9,"جغرافيا":59.9},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"جغرافيا":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"جغرافيا":false},"total":279.7,"maxTotal":380,"percentage":73.61,"status":"دور تاني"},{"seatNumber":"20522","name":"عبد الله إبراهيم منصور الشافعي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":65.6,"الرياضيات":53.9,"اللغة الإنجليزية":38,"الفيزياء":33.3,"التاريخ":42.2,"جغرافيا":42.2},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"جغرافيا":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"جغرافيا":false},"total":275.2,"maxTotal":380,"percentage":72.42,"status":"ناجح"},{"seatNumber":"20523","name":"عبد الله حسين شريف البدري","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":54.6,"الرياضيات":44.8,"اللغة الإنجليزية":42.7,"الفيزياء":46.3,"التاريخ":31.8,"جغرافيا":31.8},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"جغرافيا":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"جغرافيا":false},"total":252,"maxTotal":380,"percentage":66.32,"status":"ناجح"},{"seatNumber":"20524","name":"حسين حسين منصور عثمان","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":43.1,"الرياضيات":41,"اللغة الإنجليزية":54.7,"الفيزياء":54.7,"التاريخ":52.3,"جغرافيا":52.3},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"جغرافيا":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"جغرافيا":false},"total":298.1,"maxTotal":380,"percentage":78.45,"status":"ناجح"},{"seatNumber":"20525","name":"حسن سعيد سليمان منصور","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":41.2,"الرياضيات":57.9,"اللغة الإنجليزية":38.6,"الفيزياء":37.9,"التاريخ":25.2,"جغرافيا":25.2},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"جغرافيا":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"جغرافيا":false},"total":226,"maxTotal":380,"percentage":59.47,"status":"دور تاني"},{"seatNumber":"224","name":"عبدالله أحمد إسماعيل علي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":79,"الرياضيات":59,"اللغة الإنجليزية":59.5,"الفيزياء":59,"التاريخ":59,"جغرافيا":59},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"جغرافيا":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"جغرافيا":false},"total":374.5,"maxTotal":380,"percentage":98.55,"status":"ناجح"}]; window.PORTAL_SETTINGS = {"schoolName":"مدرسة المشير عبدالحكيم عامر","governorate":"المنيا","year":"2027","passingPercentage":50,"adminPassword":"admin123","heroTitle":"نتيجة أولى بكالوريا 2027","institutionPassword":"school123"}; window.HONOR_ROLL_DATABASE = [{"id":"honor_1782366689105","title":"أوائل الصف الثاني الثانوي 2026","students":[{"rank":1,"name":"محمود أحمد إسماعيل علي","school":"","total":"368","percentage":""},{"rank":2,"name":"محمود علاء حلمي","school":"","total":"357","percentage":""},{"rank":3,"name":"طارق حسين كمال الشافعي","school":"","total":"355","percentage":""},{"rank":4,"name":"أحمد حسين منصور نصر","school":"","total":"352","percentage":""},{"rank":5,"name":"طارق طه كمال عثمان","school":"","total":"348","percentage":""},{"rank":6,"name":"عبد الله أحمد عمر سليم","school":"","total":"345","percentage":""},{"rank":7,"name":"عبد الرحمن محمود خالد الشناوي","school":"","total":"340","percentage":""},{"rank":8,"name":"سعيد مصطفى كمال البدري","school":"","total":"335","percentage":""},{"rank":9,"name":"شريف مصطفى خالد الشناوي","school":"","total":"333","percentage":""},{"rank":10,"name":"إبراهيم إبراهيم عبد العزيز الشافعي","school":"","total":"320","percentage":""}]}];</script>
 
   <script>
     // Global State
@@ -3585,6 +3884,19 @@
       if (setGov) setGov.value = portalSettings.governorate;
       if (setYear) setYear.value = portalSettings.year;
       if (setPassingPercentage) setPassingPercentage.value = portalSettings.passingPercentage;
+
+      // Populate GitHub publish credentials
+      const githubUsernameVal = localStorage.getItem('github_username') || '';
+      const githubRepoVal = localStorage.getItem('github_repo') || '';
+      const githubTokenVal = localStorage.getItem('github_token') || '';
+
+      const uInput = document.getElementById('githubUsername');
+      const rInput = document.getElementById('githubRepo');
+      const tInput = document.getElementById('githubToken');
+
+      if (uInput) uInput.value = githubUsernameVal;
+      if (rInput) rInput.value = githubRepoVal;
+      if (tInput) tInput.value = githubTokenVal;
 
       // Update live stats bar
       updateStatsBar();
@@ -3780,7 +4092,9 @@
       const canvas = document.getElementById('confettiCanvas');
       if (!canvas) return;
       const W = canvas.width, H = canvas.height;
-      const count = 18; // more particles per burst
+      // Reduce particle count on mobile for performance
+      const isMobile = window.innerWidth <= 768;
+      const count = isMobile ? 8 : 18;
 
       for (let i = 0; i < count; i++) {
         // Small jitter on spawn point so they spread naturally
@@ -3803,6 +4117,8 @@
       if (canvas.width !== window.innerWidth)  canvas.width  = window.innerWidth;
       if (canvas.height !== window.innerHeight) canvas.height = window.innerHeight;
 
+      const isMobile = window.innerWidth <= 768;
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       confettiParticles = confettiParticles.filter(p => p.opacity > 0.01);
 
@@ -3812,35 +4128,39 @@
         p.vy += p.gravity;
         p.x  += p.vx;
         p.y  += p.vy;
-        p.rotation     += p.rotationSpeed;
-        p.shimmerPhase += p.shimmerSpeed;
+        p.rotation += p.rotationSpeed;
 
-        // Shimmer: brightness pulses between 0.65 → 1.0
-        const shimmer = 0.825 + Math.sin(p.shimmerPhase) * 0.175;
+        // Shimmer only on desktop — saves CPU on mobile
+        let alpha = Math.max(0, p.opacity);
+        if (!isMobile) {
+          p.shimmerPhase += p.shimmerSpeed;
+          const shimmer = 0.825 + Math.sin(p.shimmerPhase) * 0.175;
+          alpha *= shimmer;
+        }
 
         // Start fading when near bottom edge
         if (p.y > canvas.height * 0.82) {
           p.opacity -= 0.022;
         }
 
-        const alpha = Math.max(0, p.opacity) * shimmer;
-
         ctx.save();
         ctx.globalAlpha = alpha;
         ctx.translate(p.x, p.y);
         ctx.rotate(p.rotation * Math.PI / 180);
-
         ctx.fillStyle = p.color;
 
-        if (p.shape === 'circle') {
-          ctx.beginPath();
-          ctx.arc(0, 0, p.width / 2, 0, Math.PI * 2);
-          ctx.fill();
-        } else if (p.shape === 'ribbon') {
-          // Long, thin, fluttery ribbon
-          ctx.fillRect(-p.width * 1.8, -p.height / 2, p.width * 3.6, p.height);
+        // On mobile: only rectangles (faster, no arc calc)
+        if (!isMobile || p.shape === 'rect') {
+          if (p.shape === 'circle' && !isMobile) {
+            ctx.beginPath();
+            ctx.arc(0, 0, p.width / 2, 0, Math.PI * 2);
+            ctx.fill();
+          } else if (p.shape === 'ribbon') {
+            ctx.fillRect(-p.width * 1.8, -p.height / 2, p.width * 3.6, p.height);
+          } else {
+            ctx.fillRect(-p.width / 2, -p.height / 2, p.width, p.height);
+          }
         } else {
-          // Square-ish rect
           ctx.fillRect(-p.width / 2, -p.height / 2, p.width, p.height);
         }
 
@@ -3856,6 +4176,7 @@
       }
     }
 
+
     function startConfetti() {
       confettiSpawning = true;
       confettiParticles = [];
@@ -3866,13 +4187,16 @@
         canvas.height = window.innerHeight;
       }
 
-      // Double initial burst for dramatic opening
+      // Detect mobile for performance tuning
+      const isMobile = window.innerWidth <= 768;
+
+      // Single burst on mobile, double on desktop for dramatic effect
       spawnBurst();
-      spawnBurst();
+      if (!isMobile) spawnBurst();
 
       confettiSpawnInterval = setInterval(() => {
         if (confettiSpawning) spawnBurst();
-      }, 260); // faster repeat = denser stream
+      }, isMobile ? 500 : 260); // slower on mobile = fewer particles
 
       if (!confettiAnimId) {
         confettiAnimId = requestAnimationFrame(drawConfetti);
@@ -5318,6 +5642,111 @@
 
       alert('تم تصدير الموقع بنجاح كملف HTML مستقل ومدمج به درجات الطلاب! يمكنك الآن تشغيله أو مشاركته ونشره على الإنترنت.');
     }
+
+    // PUBLISH SITE DIRECTLY TO GITHUB PAGES
+    async function publishToGitHub() {
+      const username = document.getElementById('githubUsername').value.trim();
+      const repo = document.getElementById('githubRepo').value.trim();
+      const token = document.getElementById('githubToken').value.trim();
+
+      if (!username || !repo || !token) {
+        alert('الرجاء إدخال اسم المستخدم والمستودع ورمز الدخول الخاص بـ GitHub.');
+        return;
+      }
+
+      // Save credentials in LocalStorage for next time
+      localStorage.setItem('github_username', username);
+      localStorage.setItem('github_repo', repo);
+      localStorage.setItem('github_token', token);
+
+      const statusEl = document.getElementById('githubPublishStatus');
+      statusEl.style.display = 'block';
+      statusEl.style.background = 'rgba(255, 255, 255, 0.03)';
+      statusEl.style.borderColor = 'var(--border-color)';
+      statusEl.style.color = 'var(--text-sub)';
+      statusEl.innerHTML = '⏳ جاري تحضير ملفات الموقع ومزامنة البيانات الحالية...';
+
+      try {
+        // 1. Prepare HTML content
+        let htmlContent = document.documentElement.outerHTML;
+        const scriptToEmbed = `<script id="database-script">window.STUDENT_DATABASE = ${JSON.stringify(studentDatabase)}; window.PORTAL_SETTINGS = ${JSON.stringify(portalSettings)}; window.HONOR_ROLL_DATABASE = ${JSON.stringify(honorRollDatabase)};<\/script>`;
+        const regex = /<script id="database-script">[\s\S]*?<\/script>/;
+        
+        // Clean out any sensitive status element messages before saving HTML to public repo
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = htmlContent;
+        const statusMsg = tempDiv.querySelector('#githubPublishStatus');
+        if (statusMsg) {
+          statusMsg.innerHTML = '';
+          statusMsg.style.display = 'none';
+        }
+        htmlContent = tempDiv.innerHTML;
+
+        const newHtml = '<!DOCTYPE html>\n' + htmlContent.replace(regex, scriptToEmbed);
+
+        // 2. Fetch SHA of existing index.html on GitHub if any
+        statusEl.innerHTML = '⏳ جاري الاتصال بخوادم GitHub للتحقق من الملف الحالي...';
+        const url = `https://api.github.com/repos/${username}/${repo}/contents/index.html`;
+        const headers = {
+          'Authorization': `token ${token}`,
+          'Accept': 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json'
+        };
+
+        let sha = null;
+        try {
+          const res = await fetch(url, { headers });
+          if (res.ok) {
+            const data = await res.json();
+            sha = data.sha;
+          }
+        } catch (e) {
+          // File doesn't exist yet or other network error, ignore and upload as new
+        }
+
+        // 3. Upload/update file
+        statusEl.innerHTML = '⏳ جاري تشفير ونشر درجات الطلاب واللوحات إلى السيرفر...';
+        
+        // Encode content in base64 safely (supports Unicode/Arabic characters)
+        const utf8Bytes = new TextEncoder().encode(newHtml);
+        let binary = '';
+        const len = utf8Bytes.byteLength;
+        for (let i = 0; i < len; i++) {
+          binary += String.fromCharCode(utf8Bytes[i]);
+        }
+        const base64Content = btoa(binary);
+
+        const body = {
+          message: `تحديث تلقائي للموقع والنتائج - ${new Date().toLocaleString('ar-EG')}`,
+          content: base64Content
+        };
+        if (sha) body.sha = sha;
+
+        const uploadRes = await fetch(url, {
+          method: 'PUT',
+          headers,
+          body: JSON.stringify(body)
+        });
+
+        if (uploadRes.ok) {
+          statusEl.style.background = 'rgba(16, 185, 129, 0.08)';
+          statusEl.style.borderColor = 'rgba(16, 185, 129, 0.2)';
+          statusEl.style.color = '#10b981';
+          statusEl.innerHTML = `✅ تم نشر الموقع وتحديث النتائج بنجاح!<br>🌐 سيظهر التحديث للطلاب خلال دقيقة على الرابط:<br><a href="https://${username}.github.io/${repo}/" target="_blank" style="color: var(--accent); text-decoration: underline; font-weight: bold;">https://${username}.github.io/${repo}/</a>`;
+        } else {
+          const errData = await uploadRes.json();
+          statusEl.style.background = 'rgba(239, 68, 68, 0.08)';
+          statusEl.style.borderColor = 'rgba(239, 68, 68, 0.2)';
+          statusEl.style.color = '#ef4444';
+          statusEl.innerHTML = `❌ فشل النشر: ${errData.message || 'خطأ غير معروف'}. تأكد من صحة رمز الدخول Token وصلاحياته.`;
+        }
+      } catch (err) {
+        statusEl.style.background = 'rgba(239, 68, 68, 0.08)';
+        statusEl.style.borderColor = 'rgba(239, 68, 68, 0.2)';
+        statusEl.style.color = '#ef4444';
+        statusEl.innerHTML = `❌ حدث خطأ أثناء الاتصال بالإنترنت: ${err.message}`;
+      }
+    }
   </script>
-</body>
-</html>
+
+
