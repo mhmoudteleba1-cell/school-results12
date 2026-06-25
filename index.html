@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-
+<html lang="ar" dir="rtl" data-theme="light"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="mobile-web-app-capable" content="yes">
@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
   <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&amp;family=Cairo:wght@400;600;700;800&amp;display=swap" rel="stylesheet" media="all" onload="this.media='all'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet"></noscript>
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&amp;display=swap" rel="stylesheet"></noscript>
   <!-- SheetJS Library for parsing Excel in browser -->
   <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js" defer=""></script>
 
@@ -2004,12 +2004,35 @@
 
       /* Footer name — keep gradient text but stop animation on mobile */
       .footer-name-badge .name-text {
+        font-size: 15px !important;
         animation: none !important;
         background: linear-gradient(135deg, #a855f7, #6366f1, #10b981) !important;
         background-size: 100% 100% !important;
         -webkit-background-clip: text !important;
         background-clip: text !important;
         -webkit-text-fill-color: transparent !important;
+      }
+
+      /* Footer mobile adjustments to prevent name clipping and overflow */
+      .app-footer {
+        padding: 10px 0 20px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+      }
+      .footer-card {
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 6px 10px !important;
+        padding: 10px 20px !important;
+        border-radius: 30px !important;
+        max-width: 90% !important;
+        margin: 0 auto !important;
+        transform: none !important;
+        box-shadow: var(--shadow-card) !important;
+      }
+      .footer-dot {
+        display: none !important;
       }
 
       /* Simplify school emoji float animation */
@@ -2123,6 +2146,82 @@
       }
       .stat-value {
         font-size: 13px !important;
+      }
+
+      /* ── Student Results Modal & Table Mobile Optimization ── */
+      .modal-overlay {
+        padding: 8px !important;
+      }
+      .modal-body {
+        padding: 10px !important;
+      }
+      .report-card-inner {
+        padding: 12px 10px !important; /* Compact padding to fit table on narrow mobile viewports */
+      }
+      .report-school-header {
+        margin-bottom: 12px !important;
+        padding-bottom: 10px !important;
+        gap: 8px !important;
+      }
+      .school-info h3 {
+        font-size: 14px !important;
+      }
+      .status-badge {
+        padding: 4px 10px !important;
+        font-size: 11px !important;
+        gap: 4px !important;
+      }
+      .status-badge svg {
+        width: 12px !important;
+        height: 12px !important;
+      }
+      .report-top-info {
+        padding: 10px !important;
+        margin-bottom: 12px !important;
+        gap: 6px !important;
+        grid-template-columns: 1fr !important; /* Stack items vertically to prevent text overflow */
+      }
+      .info-item {
+        font-size: 11px !important;
+      }
+      .results-table-wrapper {
+        margin-top: 4px !important;
+        border-radius: 8px !important;
+        overflow-x: auto !important;
+      }
+      .results-table th,
+      .results-table td {
+        padding: 8px 6px !important; /* Compact padding to prevent cell clipping */
+        font-size: 11.5px !important; /* Compact font size */
+      }
+      .results-table th {
+        font-size: 11px !important;
+      }
+      .grade-status {
+        font-size: 10px !important;
+        padding: 2px 6px !important;
+      }
+      .signatures-row {
+        margin-top: 16px !important;
+        padding-top: 12px !important;
+        gap: 10px !important;
+      }
+      .signature-block {
+        min-width: 60px !important;
+      }
+      .signature-block .sig-title {
+        font-size: 10px !important;
+        margin-bottom: 4px !important;
+      }
+      .signature-block .sig-name {
+        font-size: 11px !important;
+      }
+      .signature-block .sig-stamp {
+        font-size: 12px !important;
+      }
+      .report-actions {
+        margin-top: 14px !important;
+        justify-content: center !important; /* Center print button on mobile */
       }
     }
 
@@ -2848,8 +2947,8 @@
       to   { opacity: 0.55; transform: translateY(0); }
     }
   </style>
-
-
+</head>
+<body>
 
   <!-- Animated background orbs -->
   <div class="bg-orb bg-orb-1"></div>
@@ -2901,12 +3000,12 @@
     <!-- Hero Label -->
     <div class="hero-label" style="display: block;">
       <span class="school-emoji">🏫</span>
-      <h2 id="heroTitle">نتيجة أولى بكالوريا 2027</h2>
+      <h2 id="heroTitle">نتيجة أولى بكالوريا 2028</h2>
       <p id="heroSubtitle">بوابة نتائج الطلاب الرسمية - مدرسة المشير عبدالحكيم عامر</p>
     </div>
 
     <!-- Confetti Canvas (always in DOM, drawn only when active) -->
-    <canvas id="confettiCanvas" width="1280" height="869"></canvas>
+    <canvas id="confettiCanvas"></canvas>
 
     <!-- Congratulations Overlay (shown when student passes) -->
     <div id="congratsOverlay" class="congrats-overlay" onclick="handleCongratsOutsideClick(event)" style="display: none;">
@@ -2919,16 +3018,16 @@
         <span class="congrats-trophy">🏆</span>
         <h2 class="congrats-title">مبروك النجاح!</h2>
         <p class="congrats-subtitle">أحسنت وأبدعت — استمر في التفوق</p>
-        <p class="congrats-name" id="congratsStudentName">محمود أحمد إسماعيل علي</p>
+        <p class="congrats-name" id="congratsStudentName">اسم الطالب</p>
 
         <div class="congrats-scores">
           <div class="congrats-score-box">
             <div class="congrats-score-label">المجموع</div>
-            <div class="congrats-score-value" id="congratsTotal">349</div>
+            <div class="congrats-score-value" id="congratsTotal">—</div>
           </div>
           <div class="congrats-score-box">
             <div class="congrats-score-label">النسبة المئوية</div>
-            <div class="congrats-score-value" id="congratsPercentage">91.8%</div>
+            <div class="congrats-score-value" id="congratsPercentage">—%</div>
           </div>
         </div>
 
@@ -2996,10 +3095,10 @@
       </form>
 
       <!-- List Search Results (For Name fuzzy matches) -->
-      <div id="resultsList" class="results-list" style="display: none;"></div>
+      <div id="resultsList" class="results-list"></div>
 
       <!-- Error / Empty Results UI -->
-      <div id="noResults" class="no-results" style="display: none;">
+      <div id="noResults" class="no-results">
         <svg viewBox="0 0 24 24" width="40" height="40" stroke="var(--text-muted)" fill="none" stroke-width="1.5" style="display:block;margin:0 auto 12px;"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
         <p id="searchErrorMessage">لم يتم العثور على أي نتائج تطابق بحثك.</p>
       </div>
@@ -3047,46 +3146,8 @@
       
       <!-- Podium for top 3 -->
       <div class="podium-container" id="top10Podium">
-          <div class="podium-spot second">
-            <div class="podium-avatar-wrapper">
-              <div class="podium-avatar">🥈</div>
-              <span class="podium-rank-badge">2</span>
-            </div>
-            <div class="podium-student-name" title="عبدالله أحمد إسماعيل علي">عبدالله أحمد إسماعيل علي</div>
-            <div class="podium-student-score">374.5 درجة</div>
-            <span class="podium-student-pct">98.55%</span>
-            <div class="podium-pedestal">
-              <span class="podium-pedestal-num">2</span>
-            </div>
-          </div>
-        
-          <div class="podium-spot first">
-            <div class="podium-avatar-wrapper">
-              <span class="podium-crown">👑</span>
-              <div class="podium-avatar">🥇</div>
-              <span class="podium-rank-badge">1</span>
-            </div>
-            <div class="podium-student-name" title="محمد أحمد إسماعيل">محمد أحمد إسماعيل</div>
-            <div class="podium-student-score">380 درجة</div>
-            <span class="podium-student-pct">100%</span>
-            <div class="podium-pedestal">
-              <span class="podium-pedestal-num">1</span>
-            </div>
-          </div>
-        
-          <div class="podium-spot third">
-            <div class="podium-avatar-wrapper">
-              <div class="podium-avatar">🥉</div>
-              <span class="podium-rank-badge">3</span>
-            </div>
-            <div class="podium-student-name" title="محمود أحمد إسماعيل علي">محمود أحمد إسماعيل علي</div>
-            <div class="podium-student-score">348.7 درجة</div>
-            <span class="podium-student-pct">91.76%</span>
-            <div class="podium-pedestal">
-              <span class="podium-pedestal-num">3</span>
-            </div>
-          </div>
-        </div>
+        <!-- Generated dynamically -->
+      </div>
       
       <!-- List table for remaining 4-10 -->
       <div class="top-list-table-wrapper">
@@ -3101,61 +3162,7 @@
             </tr>
           </thead>
           <tbody id="top10TableBody">
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">4</span></td>
-              <td style="font-weight: 800; color: var(--accent);">سعيد مصطفى كمال البدري</td>
-              <td style="color: var(--text-sub);">مدرسة المشير عبدالحكيم عامر</td>
-              <td style="text-align: center; font-weight: bold;">325.7</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">85.71%</td>
-            </tr>
-          
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">5</span></td>
-              <td style="font-weight: 800; color: var(--accent);">شريف محمد عادل الشناوي</td>
-              <td style="color: var(--text-sub);">مدرسة المشير عبدالحكيم عامر</td>
-              <td style="text-align: center; font-weight: bold;">321.3</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">84.55%</td>
-            </tr>
-          
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">6</span></td>
-              <td style="font-weight: 800; color: var(--accent);">طارق حسين كمال الشافعي</td>
-              <td style="color: var(--text-sub);">مدرسة المشير عبدالحكيم عامر</td>
-              <td style="text-align: center; font-weight: bold;">317.5</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">83.55%</td>
-            </tr>
-          
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">7</span></td>
-              <td style="font-weight: 800; color: var(--accent);">محمود علاء حلمي</td>
-              <td style="color: var(--text-sub);">مدرسة المشير عبدالحكيم عامر</td>
-              <td style="text-align: center; font-weight: bold;">308.1</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">81.08%</td>
-            </tr>
-          
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">8</span></td>
-              <td style="font-weight: 800; color: var(--accent);">عبد الرحمن محمود خالد الشناوي</td>
-              <td style="color: var(--text-sub);">مدرسة المشير عبدالحكيم عامر</td>
-              <td style="text-align: center; font-weight: bold;">308</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">81.05%</td>
-            </tr>
-          
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">9</span></td>
-              <td style="font-weight: 800; color: var(--accent);">إبراهيم إبراهيم عبد العزيز الشافعي</td>
-              <td style="color: var(--text-sub);">مدرسة المشير عبدالحكيم عامر</td>
-              <td style="text-align: center; font-weight: bold;">304.9</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">80.24%</td>
-            </tr>
-          
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">10</span></td>
-              <td style="font-weight: 800; color: var(--accent);">حسين حسين منصور عثمان</td>
-              <td style="color: var(--text-sub);">مدرسة المشير عبدالحكيم عامر</td>
-              <td style="text-align: center; font-weight: bold;">298.1</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">78.45%</td>
-            </tr>
+            <!-- Generated dynamically -->
           </tbody>
         </table>
       </div>
@@ -3164,72 +3171,30 @@
     <!-- 1.2 HONOR ROLL VIEW -->
     <div id="honorRollView" class="view-container" style="display: none;">
       <!-- Grid View of Years/Uploads -->
-      <div id="honorRollGridView" style="display: none;">
+      <div id="honorRollGridView">
         <div class="view-header">
           <h2>لوحة الشرف</h2>
           <p>أرشيف متفوقي بكالوريا والسنوات الدراسية السابقة</p>
         </div>
         <div class="honor-grid" id="honorRollGridContainer">
-          <div class="honor-card" onclick="showHonorRollDetails('honor_1782366689105')">
-            <span class="honor-card-icon">🏅</span>
-            <div class="honor-card-title">أوائل الصف الثاني الثانوي 2026</div>
-            <div class="honor-card-sub">عدد الأوائل: 10 طالب وطالبة</div>
-          </div>
+          <!-- Card components generated dynamically -->
         </div>
       </div>
       
       <!-- Specific Selected Year Details (Initially Hidden) -->
-      <div id="honorRollDetailsView" style="display: block;">
+      <div id="honorRollDetailsView" style="display: none;">
         <div class="view-header">
           <button class="back-btn" onclick="backToHonorGrid()">
             <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" strokewidth="2.5" style="transform: rotate(180deg);"><path d="M9 5l7 7-7 7"></path></svg>
             <span>العودة للأرشيف</span>
           </button>
-          <h2 id="honorRollSelectedTitle">أوائل الصف الثاني الثانوي 2026</h2>
-          <p id="honorRollSelectedSub">أرشيف لوحة المتفوقين الأوائل لـ (أوائل الصف الثاني الثانوي 2026)</p>
+          <h2 id="honorRollSelectedTitle">اسم لوحة الشرف</h2>
+          <p id="honorRollSelectedSub">أرشيف الطلاب المتفوقين الأوائل</p>
         </div>
         
         <!-- Podium for top 3 -->
         <div class="podium-container" id="honorDetailsPodium">
-          <div class="podium-spot second">
-            <div class="podium-avatar-wrapper">
-              <div class="podium-avatar">🥈</div>
-              <span class="podium-rank-badge">2</span>
-            </div>
-            <div class="podium-student-name" title="محمود علاء حلمي">محمود علاء حلمي</div>
-            <div class="podium-student-score">357</div>
-            <span class="podium-student-pct">—</span>
-            <div class="podium-pedestal">
-              <span class="podium-pedestal-num">2</span>
-            </div>
-          </div>
-        
-          <div class="podium-spot first">
-            <div class="podium-avatar-wrapper">
-              <span class="podium-crown">👑</span>
-              <div class="podium-avatar">🥇</div>
-              <span class="podium-rank-badge">1</span>
-            </div>
-            <div class="podium-student-name" title="محمود أحمد إسماعيل علي">محمود أحمد إسماعيل علي</div>
-            <div class="podium-student-score">368</div>
-            <span class="podium-student-pct">—</span>
-            <div class="podium-pedestal">
-              <span class="podium-pedestal-num">1</span>
-            </div>
-          </div>
-        
-          <div class="podium-spot third">
-            <div class="podium-avatar-wrapper">
-              <div class="podium-avatar">🥉</div>
-              <span class="podium-rank-badge">3</span>
-            </div>
-            <div class="podium-student-name" title="طارق حسين كمال الشافعي">طارق حسين كمال الشافعي</div>
-            <div class="podium-student-score">355</div>
-            <span class="podium-student-pct">—</span>
-            <div class="podium-pedestal">
-              <span class="podium-pedestal-num">3</span>
-            </div>
-          </div>
+          <!-- Generated dynamically -->
         </div>
         
         <!-- Table for 4-10 -->
@@ -3245,62 +3210,8 @@
               </tr>
             </thead>
             <tbody id="honorDetailsTableBody">
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">4</span></td>
-              <td style="font-weight: 800; color: var(--accent);">أحمد حسين منصور نصر</td>
-              <td style="text-align: center; color: var(--text-sub); font-weight: bold;">—</td>
-              <td style="text-align: center; font-weight: bold;">352</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">—</td>
-            </tr>
-          
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">5</span></td>
-              <td style="font-weight: 800; color: var(--accent);">طارق طه كمال عثمان</td>
-              <td style="text-align: center; color: var(--text-sub); font-weight: bold;">—</td>
-              <td style="text-align: center; font-weight: bold;">348</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">—</td>
-            </tr>
-          
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">6</span></td>
-              <td style="font-weight: 800; color: var(--accent);">عبد الله أحمد عمر سليم</td>
-              <td style="text-align: center; color: var(--text-sub); font-weight: bold;">—</td>
-              <td style="text-align: center; font-weight: bold;">345</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">—</td>
-            </tr>
-          
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">7</span></td>
-              <td style="font-weight: 800; color: var(--accent);">عبد الرحمن محمود خالد الشناوي</td>
-              <td style="text-align: center; color: var(--text-sub); font-weight: bold;">—</td>
-              <td style="text-align: center; font-weight: bold;">340</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">—</td>
-            </tr>
-          
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">8</span></td>
-              <td style="font-weight: 800; color: var(--accent);">سعيد مصطفى كمال البدري</td>
-              <td style="text-align: center; color: var(--text-sub); font-weight: bold;">—</td>
-              <td style="text-align: center; font-weight: bold;">335</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">—</td>
-            </tr>
-          
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">9</span></td>
-              <td style="font-weight: 800; color: var(--accent);">شريف مصطفى خالد الشناوي</td>
-              <td style="text-align: center; color: var(--text-sub); font-weight: bold;">—</td>
-              <td style="text-align: center; font-weight: bold;">333</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">—</td>
-            </tr>
-          
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">10</span></td>
-              <td style="font-weight: 800; color: var(--accent);">إبراهيم إبراهيم عبد العزيز الشافعي</td>
-              <td style="text-align: center; color: var(--text-sub); font-weight: bold;">—</td>
-              <td style="text-align: center; font-weight: bold;">320</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">—</td>
-            </tr>
-          </tbody>
+              <!-- Generated dynamically -->
+            </tbody>
           </table>
         </div>
       </div>
@@ -3320,7 +3231,7 @@
       <div id="adminLoginCard" class="login-card" style="display: none;">
         <h2>تسجيل دخول الإدارة</h2>
         <input type="password" id="adminPasswordInput" placeholder="أدخل كلمة مرور المدير" class="login-input" onkeydown="if(event.key === 'Enter') loginAdmin()">
-        <p id="loginError" style="color: var(--accent-fail); font-size: 13px; font-weight: bold; display: none;">كلمة المرور غير صحيحة.</p>
+        <p id="loginError" style="color: var(--accent-fail); font-size: 13px; font-weight: bold; display: none;">كلمة المرور خاطئة!</p>
         <button onclick="loginAdmin()" class="submit-button" style="align-self: center; margin-top: 10px;">
           دخول
         </button>
@@ -3790,7 +3701,7 @@
   </footer>
 
   <!-- EMBEDDED DATABASE PLACEHOLDER (Do not delete or change this exact line. It is used during export) -->
-  <script id="database-script">window.STUDENT_DATABASE = [{"seatNumber":"343","name":"محمود أحمد إسماعيل علي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":75.2,"الرياضيات":54.3,"اللغة الإنجليزية":59.1,"الفيزياء":56.2,"التاريخ":47.7,"الكيمياء":56.2},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":348.7,"maxTotal":380,"percentage":91.76,"status":"ناجح"},{"seatNumber":"344","name":"محمود علاء حلمي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":65,"الرياضيات":47.1,"اللغة الإنجليزية":50,"الفيزياء":52,"التاريخ":45,"الكيمياء":49},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":308.1,"maxTotal":380,"percentage":81.08,"status":"ناجح"},{"seatNumber":"20503","name":"طارق حسين كمال الشافعي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":61.9,"الرياضيات":59.3,"اللغة الإنجليزية":51.9,"الفيزياء":57,"التاريخ":43.7,"الكيمياء":43.7},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":317.5,"maxTotal":380,"percentage":83.55,"status":"ناجح"},{"seatNumber":"20504","name":"أحمد حسين منصور نصر","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":55,"الرياضيات":59.4,"اللغة الإنجليزية":31.7,"الفيزياء":40.2,"التاريخ":25.9,"الكيمياء":25.9},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":238.1,"maxTotal":380,"percentage":62.66,"status":"دور تاني"},{"seatNumber":"20505","name":"طارق طه كمال عثمان","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":49.9,"الرياضيات":35.4,"اللغة الإنجليزية":55.2,"الفيزياء":37.3,"التاريخ":54.4,"الكيمياء":54.4},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":286.6,"maxTotal":380,"percentage":75.42,"status":"ناجح"},{"seatNumber":"20506","name":"عبد الله أحمد عمر سليم","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":69.5,"الرياضيات":51.2,"اللغة الإنجليزية":27.8,"الفيزياء":58.3,"التاريخ":41.8,"الكيمياء":41.8},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":290.4,"maxTotal":380,"percentage":76.42,"status":"دور تاني"},{"seatNumber":"20507","name":"عبد الرحمن محمود خالد الشناوي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":57.8,"الرياضيات":46.6,"اللغة الإنجليزية":46.7,"الفيزياء":46.7,"التاريخ":55.1,"الكيمياء":55.1},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":308,"maxTotal":380,"percentage":81.05,"status":"ناجح"},{"seatNumber":"20508","name":"سعيد مصطفى كمال البدري","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":66.3,"الرياضيات":59.1,"اللغة الإنجليزية":42.1,"الفيزياء":47.8,"التاريخ":55.2,"الكيمياء":55.2},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":325.7,"maxTotal":380,"percentage":85.71,"status":"ناجح"},{"seatNumber":"20509","name":"شريف مصطفى خالد الشناوي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":50.5,"الرياضيات":50.1,"اللغة الإنجليزية":45.6,"الفيزياء":57.1,"التاريخ":35.1,"الكيمياء":35.1},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":273.5,"maxTotal":380,"percentage":71.97,"status":"ناجح"},{"seatNumber":"20510","name":"إبراهيم إبراهيم عبد العزيز الشافعي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":44.3,"الرياضيات":57.3,"اللغة الإنجليزية":42.5,"الفيزياء":59.6,"التاريخ":50.6,"الكيمياء":50.6},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":304.9,"maxTotal":380,"percentage":80.24,"status":"ناجح"},{"seatNumber":"20511","name":"عبد الله سعيد منصور عثمان","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":77.1,"الرياضيات":53.4,"اللغة الإنجليزية":42.6,"الفيزياء":31.1,"التاريخ":40,"الكيمياء":40},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":284.2,"maxTotal":380,"percentage":74.79,"status":"ناجح"},{"seatNumber":"20512","name":"عبد الله إبراهيم شريف الجارحي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":54.9,"الرياضيات":49.9,"اللغة الإنجليزية":39.1,"الفيزياء":50.5,"التاريخ":33.3,"الكيمياء":33.3},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":261,"maxTotal":380,"percentage":68.68,"status":"ناجح"},{"seatNumber":"20513","name":"عماد محمود خالد جاد","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":62.1,"الرياضيات":34.5,"اللغة الإنجليزية":54,"الفيزياء":54.2,"التاريخ":38.5,"الكيمياء":38.5},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":281.8,"maxTotal":380,"percentage":74.16,"status":"ناجح"},{"seatNumber":"20514","name":"حسين حسن منصور زكي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":72,"الرياضيات":32.8,"اللغة الإنجليزية":37.9,"الفيزياء":43.5,"التاريخ":38.6,"الكيمياء":38.6},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":263.4,"maxTotal":380,"percentage":69.32,"status":"ناجح"},{"seatNumber":"20515","name":"عبد الله محمود سليمان جاد","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":71.6,"الرياضيات":58.8,"اللغة الإنجليزية":39.9,"الفيزياء":26.2,"التاريخ":38.4,"الكيمياء":38.4},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":273.3,"maxTotal":380,"percentage":71.92,"status":"دور تاني"},{"seatNumber":"20516","name":"حسن طه عبد الرحمن جاد","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":64.5,"الرياضيات":42.9,"اللغة الإنجليزية":56.4,"الفيزياء":34.9,"التاريخ":31.9,"الكيمياء":31.9},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":262.5,"maxTotal":380,"percentage":69.08,"status":"ناجح"},{"seatNumber":"20517","name":"شريف محمد عادل الشناوي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":70.1,"الرياضيات":47.2,"اللغة الإنجليزية":51.9,"الفيزياء":40.1,"التاريخ":56,"الكيمياء":56},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":321.3,"maxTotal":380,"percentage":84.55,"status":"ناجح"},{"seatNumber":"20518","name":"هاني أحمد عبد الرحمن نصر","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":56.2,"الرياضيات":32.4,"اللغة الإنجليزية":29.2,"الفيزياء":45.5,"التاريخ":26,"الكيمياء":26},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":215.3,"maxTotal":380,"percentage":56.66,"status":"دور تاني"},{"seatNumber":"20519","name":"مصطفى إبراهيم عبد الرحمن الشافعي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":69.8,"الرياضيات":39.7,"اللغة الإنجليزية":25.3,"الفيزياء":38.5,"التاريخ":31.6,"الكيمياء":31.6},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":236.5,"maxTotal":380,"percentage":62.24,"status":"دور تاني"},{"seatNumber":"20520","name":"إبراهيم حسين عادل زكي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":49.7,"الرياضيات":53.8,"اللغة الإنجليزية":38.4,"الفيزياء":33.6,"التاريخ":41.9,"الكيمياء":41.9},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":259.3,"maxTotal":380,"percentage":68.24,"status":"ناجح"},{"seatNumber":"20521","name":"مصطفى طه منصور جاد","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":44.9,"الرياضيات":26.1,"اللغة الإنجليزية":55.7,"الفيزياء":33.2,"التاريخ":59.9,"الكيمياء":59.9},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":279.7,"maxTotal":380,"percentage":73.61,"status":"دور تاني"},{"seatNumber":"20522","name":"عبد الله إبراهيم منصور الشافعي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":65.6,"الرياضيات":53.9,"اللغة الإنجليزية":38,"الفيزياء":33.3,"التاريخ":42.2,"الكيمياء":42.2},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":275.2,"maxTotal":380,"percentage":72.42,"status":"ناجح"},{"seatNumber":"20523","name":"عبد الله حسين شريف البدري","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":54.6,"الرياضيات":44.8,"اللغة الإنجليزية":42.7,"الفيزياء":46.3,"التاريخ":31.8,"الكيمياء":31.8},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":252,"maxTotal":380,"percentage":66.32,"status":"ناجح"},{"seatNumber":"20524","name":"حسين حسين منصور عثمان","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":43.1,"الرياضيات":41,"اللغة الإنجليزية":54.7,"الفيزياء":54.7,"التاريخ":52.3,"الكيمياء":52.3},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":298.1,"maxTotal":380,"percentage":78.45,"status":"ناجح"},{"seatNumber":"20525","name":"حسن سعيد سليمان منصور","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":41.2,"الرياضيات":57.9,"اللغة الإنجليزية":38.6,"الفيزياء":37.9,"التاريخ":25.2,"الكيمياء":25.2},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":226,"maxTotal":380,"percentage":59.47,"status":"دور تاني"},{"seatNumber":"224","name":"عبدالله أحمد إسماعيل علي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":79,"الرياضيات":59,"اللغة الإنجليزية":59.5,"الفيزياء":59,"التاريخ":59,"الكيمياء":59},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":374.5,"maxTotal":380,"percentage":98.55,"status":"ناجح"},{"seatNumber":"242","name":"محمد أحمد إسماعيل","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":380,"maxTotal":380,"percentage":100,"status":"ناجح"}]; window.PORTAL_SETTINGS = {"schoolName":"مدرسة المشير عبدالحكيم عامر","governorate":"المنيا","year":"2027","passingPercentage":50,"adminPassword":"admin123","heroTitle":"نتيجة أولى بكالوريا 2027","institutionPassword":"school123"}; window.HONOR_ROLL_DATABASE = [{"id":"honor_1782366689105","title":"أوائل الصف الثاني الثانوي 2026","students":[{"rank":1,"name":"محمود أحمد إسماعيل علي","school":"","total":"368","percentage":""},{"rank":2,"name":"محمود علاء حلمي","school":"","total":"357","percentage":""},{"rank":3,"name":"طارق حسين كمال الشافعي","school":"","total":"355","percentage":""},{"rank":4,"name":"أحمد حسين منصور نصر","school":"","total":"352","percentage":""},{"rank":5,"name":"طارق طه كمال عثمان","school":"","total":"348","percentage":""},{"rank":6,"name":"عبد الله أحمد عمر سليم","school":"","total":"345","percentage":""},{"rank":7,"name":"عبد الرحمن محمود خالد الشناوي","school":"","total":"340","percentage":""},{"rank":8,"name":"سعيد مصطفى كمال البدري","school":"","total":"335","percentage":""},{"rank":9,"name":"شريف مصطفى خالد الشناوي","school":"","total":"333","percentage":""},{"rank":10,"name":"إبراهيم إبراهيم عبد العزيز الشافعي","school":"","total":"320","percentage":""}]}];</script>
+  <script id="database-script">window.STUDENT_DATABASE = [{"seatNumber":"343","name":"محمود أحمد إسماعيل علي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":75.2,"الرياضيات":54.3,"اللغة الإنجليزية":59.1,"الفيزياء":56.2,"التاريخ":47.7,"الكيمياء":56.2},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":348.7,"maxTotal":380,"percentage":91.76,"status":"ناجح"},{"seatNumber":"344","name":"محمود علاء حلمي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":65,"الرياضيات":47.1,"اللغة الإنجليزية":50,"الفيزياء":52,"التاريخ":45,"الكيمياء":49},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":308.1,"maxTotal":380,"percentage":81.08,"status":"ناجح"},{"seatNumber":"20503","name":"طارق حسين كمال الشافعي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":61.9,"الرياضيات":59.3,"اللغة الإنجليزية":51.9,"الفيزياء":57,"التاريخ":43.7,"الكيمياء":43.7},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":317.5,"maxTotal":380,"percentage":83.55,"status":"ناجح"},{"seatNumber":"20504","name":"أحمد حسين منصور نصر","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":55,"الرياضيات":59.4,"اللغة الإنجليزية":31.7,"الفيزياء":40.2,"التاريخ":25.9,"الكيمياء":25.9},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":238.1,"maxTotal":380,"percentage":62.66,"status":"دور تاني"},{"seatNumber":"20505","name":"طارق طه كمال عثمان","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":49.9,"الرياضيات":35.4,"اللغة الإنجليزية":55.2,"الفيزياء":37.3,"التاريخ":54.4,"الكيمياء":54.4},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":286.6,"maxTotal":380,"percentage":75.42,"status":"ناجح"},{"seatNumber":"20506","name":"عبد الله أحمد عمر سليم","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":69.5,"الرياضيات":51.2,"اللغة الإنجليزية":27.8,"الفيزياء":58.3,"التاريخ":41.8,"الكيمياء":41.8},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":290.4,"maxTotal":380,"percentage":76.42,"status":"دور تاني"},{"seatNumber":"20507","name":"عبد الرحمن محمود خالد الشناوي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":57.8,"الرياضيات":46.6,"اللغة الإنجليزية":46.7,"الفيزياء":46.7,"التاريخ":55.1,"الكيمياء":55.1},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":308,"maxTotal":380,"percentage":81.05,"status":"ناجح"},{"seatNumber":"20508","name":"سعيد مصطفى كمال البدري","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":66.3,"الرياضيات":59.1,"اللغة الإنجليزية":42.1,"الفيزياء":47.8,"التاريخ":55.2,"الكيمياء":55.2},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":325.7,"maxTotal":380,"percentage":85.71,"status":"ناجح"},{"seatNumber":"20509","name":"شريف مصطفى خالد الشناوي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":50.5,"الرياضيات":50.1,"اللغة الإنجليزية":45.6,"الفيزياء":57.1,"التاريخ":35.1,"الكيمياء":35.1},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":273.5,"maxTotal":380,"percentage":71.97,"status":"ناجح"},{"seatNumber":"20510","name":"إبراهيم إبراهيم عبد العزيز الشافعي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":44.3,"الرياضيات":57.3,"اللغة الإنجليزية":42.5,"الفيزياء":59.6,"التاريخ":50.6,"الكيمياء":50.6},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":304.9,"maxTotal":380,"percentage":80.24,"status":"ناجح"},{"seatNumber":"20511","name":"عبد الله سعيد منصور عثمان","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":77.1,"الرياضيات":53.4,"اللغة الإنجليزية":42.6,"الفيزياء":31.1,"التاريخ":40,"الكيمياء":40},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":284.2,"maxTotal":380,"percentage":74.79,"status":"ناجح"},{"seatNumber":"20512","name":"عبد الله إبراهيم شريف الجارحي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":54.9,"الرياضيات":49.9,"اللغة الإنجليزية":39.1,"الفيزياء":50.5,"التاريخ":33.3,"الكيمياء":33.3},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":261,"maxTotal":380,"percentage":68.68,"status":"ناجح"},{"seatNumber":"20513","name":"عماد محمود خالد جاد","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":62.1,"الرياضيات":34.5,"اللغة الإنجليزية":54,"الفيزياء":54.2,"التاريخ":38.5,"الكيمياء":38.5},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":281.8,"maxTotal":380,"percentage":74.16,"status":"ناجح"},{"seatNumber":"20514","name":"حسين حسن منصور زكي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":72,"الرياضيات":32.8,"اللغة الإنجليزية":37.9,"الفيزياء":43.5,"التاريخ":38.6,"الكيمياء":38.6},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":263.4,"maxTotal":380,"percentage":69.32,"status":"ناجح"},{"seatNumber":"20515","name":"عبد الله محمود سليمان جاد","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":71.6,"الرياضيات":58.8,"اللغة الإنجليزية":39.9,"الفيزياء":26.2,"التاريخ":38.4,"الكيمياء":38.4},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":273.3,"maxTotal":380,"percentage":71.92,"status":"دور تاني"},{"seatNumber":"20516","name":"حسن طه عبد الرحمن جاد","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":64.5,"الرياضيات":42.9,"اللغة الإنجليزية":56.4,"الفيزياء":34.9,"التاريخ":31.9,"الكيمياء":31.9},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":262.5,"maxTotal":380,"percentage":69.08,"status":"ناجح"},{"seatNumber":"20517","name":"شريف محمد عادل الشناوي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":70.1,"الرياضيات":47.2,"اللغة الإنجليزية":51.9,"الفيزياء":40.1,"التاريخ":56,"الكيمياء":56},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":321.3,"maxTotal":380,"percentage":84.55,"status":"ناجح"},{"seatNumber":"20518","name":"هاني أحمد عبد الرحمن نصر","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":56.2,"الرياضيات":32.4,"اللغة الإنجليزية":29.2,"الفيزياء":45.5,"التاريخ":26,"الكيمياء":26},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":215.3,"maxTotal":380,"percentage":56.66,"status":"دور تاني"},{"seatNumber":"20519","name":"مصطفى إبراهيم عبد الرحمن الشافعي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":69.8,"الرياضيات":39.7,"اللغة الإنجليزية":25.3,"الفيزياء":38.5,"التاريخ":31.6,"الكيمياء":31.6},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":236.5,"maxTotal":380,"percentage":62.24,"status":"دور تاني"},{"seatNumber":"20520","name":"إبراهيم حسين عادل زكي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":49.7,"الرياضيات":53.8,"اللغة الإنجليزية":38.4,"الفيزياء":33.6,"التاريخ":41.9,"الكيمياء":41.9},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":259.3,"maxTotal":380,"percentage":68.24,"status":"ناجح"},{"seatNumber":"20521","name":"مصطفى طه منصور جاد","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":44.9,"الرياضيات":26.1,"اللغة الإنجليزية":55.7,"الفيزياء":33.2,"التاريخ":59.9,"الكيمياء":59.9},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":279.7,"maxTotal":380,"percentage":73.61,"status":"دور تاني"},{"seatNumber":"20522","name":"عبد الله إبراهيم منصور الشافعي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":65.6,"الرياضيات":53.9,"اللغة الإنجليزية":38,"الفيزياء":33.3,"التاريخ":42.2,"الكيمياء":42.2},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":275.2,"maxTotal":380,"percentage":72.42,"status":"ناجح"},{"seatNumber":"20523","name":"عبد الله حسين شريف البدري","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":54.6,"الرياضيات":44.8,"اللغة الإنجليزية":42.7,"الفيزياء":46.3,"التاريخ":31.8,"الكيمياء":31.8},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":252,"maxTotal":380,"percentage":66.32,"status":"ناجح"},{"seatNumber":"20524","name":"حسين حسين منصور عثمان","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":43.1,"الرياضيات":41,"اللغة الإنجليزية":54.7,"الفيزياء":54.7,"التاريخ":52.3,"الكيمياء":52.3},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":298.1,"maxTotal":380,"percentage":78.45,"status":"ناجح"},{"seatNumber":"20525","name":"حسن سعيد سليمان منصور","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":41.2,"الرياضيات":57.9,"اللغة الإنجليزية":38.6,"الفيزياء":37.9,"التاريخ":25.2,"الكيمياء":25.2},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":226,"maxTotal":380,"percentage":59.47,"status":"دور تاني"},{"seatNumber":"224","name":"عبدالله أحمد إسماعيل علي","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":79,"الرياضيات":59,"اللغة الإنجليزية":59.5,"الفيزياء":59,"التاريخ":59,"الكيمياء":59},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":374.5,"maxTotal":380,"percentage":98.55,"status":"ناجح"},{"seatNumber":"242","name":"محمد أحمد إسماعيل","school":"مدرسة المشير عبدالحكيم عامر","administration":"إدارة سمالوط التعليمية","governorate":"المنيا","grades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"maxGrades":{"اللغة العربية":80,"الرياضيات":60,"اللغة الإنجليزية":60,"الفيزياء":60,"التاريخ":60,"الكيمياء":60},"excludedSubjects":{"اللغة العربية":false,"الرياضيات":false,"اللغة الإنجليزية":false,"الفيزياء":false,"التاريخ":false,"الكيمياء":false},"total":380,"maxTotal":380,"percentage":100,"status":"ناجح"}]; window.PORTAL_SETTINGS = {"schoolName":"مدرسة المشير عبدالحكيم عامر","governorate":"المنيا","year":"2027","passingPercentage":50,"adminPassword":"admin123","heroTitle":"نتيجة أولى بكالوريا 2028","institutionPassword":"school123"}; window.HONOR_ROLL_DATABASE = [{"id":"honor_1782366689105","title":"أوائل الصف الثاني الثانوي 2026","students":[{"rank":1,"name":"محمود أحمد إسماعيل علي","school":"","total":"368","percentage":""},{"rank":2,"name":"محمود علاء حلمي","school":"","total":"357","percentage":""},{"rank":3,"name":"طارق حسين كمال الشافعي","school":"","total":"355","percentage":""},{"rank":4,"name":"أحمد حسين منصور نصر","school":"","total":"352","percentage":""},{"rank":5,"name":"طارق طه كمال عثمان","school":"","total":"348","percentage":""},{"rank":6,"name":"عبد الله أحمد عمر سليم","school":"","total":"345","percentage":""},{"rank":7,"name":"عبد الرحمن محمود خالد الشناوي","school":"","total":"340","percentage":""},{"rank":8,"name":"سعيد مصطفى كمال البدري","school":"","total":"335","percentage":""},{"rank":9,"name":"شريف مصطفى خالد الشناوي","school":"","total":"333","percentage":""},{"rank":10,"name":"إبراهيم إبراهيم عبد العزيز الشافعي","school":"","total":"320","percentage":""}]},{"id":"honor_1782378498313","title":"أوائل الصف الأول الثانوي 2020","maxScore":380,"students":[{"rank":1,"name":"محمود أحمد إسماعيل علي","school":"","total":"368","percentage":"96.8%"},{"rank":2,"name":"محمود علاء حلمي","school":"","total":"357","percentage":"93.9%"},{"rank":3,"name":"طارق حسين كمال الشافعي","school":"","total":"355","percentage":"93.4%"},{"rank":4,"name":"أحمد حسين منصور نصر","school":"","total":"352","percentage":"92.6%"},{"rank":5,"name":"طارق طه كمال عثمان","school":"","total":"348","percentage":"91.6%"},{"rank":6,"name":"عبد الله أحمد عمر سليم","school":"","total":"345","percentage":"90.8%"},{"rank":7,"name":"عبد الرحمن محمود خالد الشناوي","school":"","total":"340","percentage":"89.5%"},{"rank":8,"name":"سعيد مصطفى كمال البدري","school":"","total":"335","percentage":"88.2%"},{"rank":9,"name":"شريف مصطفى خالد الشناوي","school":"","total":"333","percentage":"87.6%"},{"rank":10,"name":"إبراهيم إبراهيم عبد العزيز الشافعي","school":"","total":"320","percentage":"84.2%"}]}];</script>
 
   <script>
     // Global State
@@ -3864,6 +3775,12 @@
       
       // Setup drag and drop events
       setupDragDrop();
+
+      // Force reset admin view state on initial load to prevent display persistence bugs
+      const adminView = document.getElementById('adminView');
+      if (adminView) adminView.style.display = 'none';
+      const menuBtn = document.getElementById('menuTriggerBtn');
+      if (menuBtn) menuBtn.style.display = 'flex';
 
       // Show default view
       showView('search');
@@ -5668,22 +5585,22 @@
       // 2. Prepare database strings
       const scriptToEmbed = `<script id="database-script">window.STUDENT_DATABASE = ${JSON.stringify(studentDatabase)}; window.PORTAL_SETTINGS = ${JSON.stringify(portalSettings)}; window.HONOR_ROLL_DATABASE = ${JSON.stringify(honorRollDatabase)};<\/script>`;
 
-      // 3. Reset view states so exported file always opens on search page
-      const tmpDiv = document.createElement('div');
-      tmpDiv.innerHTML = htmlContent;
-      const _sv = tmpDiv.querySelector('#searchView');
-      const _av = tmpDiv.querySelector('#adminView');
-      const _t10 = tmpDiv.querySelector('#top10View');
-      const _hr = tmpDiv.querySelector('#honorRollView');
-      const _hero = tmpDiv.querySelector('.hero-label');
-      const _menu = tmpDiv.querySelector('#menuTriggerBtn');
+      // 3. Reset view states so exported file always opens on search page using DOMParser
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(htmlContent, 'text/html');
+      const _sv = doc.getElementById('searchView');
+      const _av = doc.getElementById('adminView');
+      const _t10 = doc.getElementById('top10View');
+      const _hr = doc.getElementById('honorRollView');
+      const _hero = doc.querySelector('.hero-label');
+      const _menu = doc.getElementById('menuTriggerBtn');
       if (_sv)   _sv.style.display = 'flex';
       if (_av)   _av.style.display = 'none';
       if (_t10)  _t10.style.display = 'none';
       if (_hr)   _hr.style.display = 'none';
       if (_hero) _hero.style.display = 'block';
       if (_menu) _menu.style.display = 'flex';
-      htmlContent = tmpDiv.innerHTML;
+      htmlContent = doc.documentElement.outerHTML;
 
       // 4. Find and replace the placeholder script tag
       const regex = /<script id="database-script">[\s\S]*?<\/script>/;
@@ -5733,16 +5650,16 @@
 
         // ─── Fix inline styles: reset all views to their clean default state ───
         // So the published page always opens on the student search page, never the admin panel
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = htmlContent;
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlContent, 'text/html');
 
         // Always show searchView, hide admin/top10/honor views on page load
-        const svEl = tempDiv.querySelector('#searchView');
-        const avEl = tempDiv.querySelector('#adminView');
-        const t10El = tempDiv.querySelector('#top10View');
-        const hrEl = tempDiv.querySelector('#honorRollView');
-        const heroEl = tempDiv.querySelector('.hero-label');
-        const menuBtn = tempDiv.querySelector('#menuTriggerBtn');
+        const svEl = doc.getElementById('searchView');
+        const avEl = doc.getElementById('adminView');
+        const t10El = doc.getElementById('top10View');
+        const hrEl = doc.getElementById('honorRollView');
+        const heroEl = doc.querySelector('.hero-label');
+        const menuBtn = doc.getElementById('menuTriggerBtn');
 
         if (svEl)   svEl.style.display = 'flex';
         if (avEl)   avEl.style.display = 'none';
@@ -5752,17 +5669,17 @@
         if (menuBtn) menuBtn.style.display = 'flex';
 
         // Clear publish status message (no private info in public HTML)
-        const statusMsg = tempDiv.querySelector('#githubPublishStatus');
+        const statusMsg = doc.getElementById('githubPublishStatus');
         if (statusMsg) {
           statusMsg.innerHTML = '';
           statusMsg.style.display = 'none';
         }
 
         // Clear admin password inputs
-        const adminPassInput = tempDiv.querySelector('#adminPasswordInput');
+        const adminPassInput = doc.getElementById('adminPasswordInput');
         if (adminPassInput) adminPassInput.value = '';
 
-        htmlContent = tempDiv.innerHTML;
+        htmlContent = doc.documentElement.outerHTML;
         const newHtml = '<!DOCTYPE html>\n' + htmlContent.replace(regex, scriptToEmbed);
 
         // 2. Fetch SHA of existing index.html on GitHub if any
@@ -5831,3 +5748,4 @@
   </script>
 
 
+</body></html>
