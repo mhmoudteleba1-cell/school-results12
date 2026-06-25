@@ -2079,6 +2079,48 @@
       .stat-val {
         animation: none !important;
       }
+
+      /* ── Admin panel compact layout on mobile ── */
+      .admin-container {
+        padding: 16px !important;
+        border-radius: 20px !important;
+      }
+      .admin-header {
+        flex-direction: column !important;
+        gap: 10px !important;
+        padding-bottom: 12px !important;
+        margin-bottom: 16px !important;
+      }
+      .admin-header h1 {
+        font-size: 17px !important;
+      }
+      .admin-tabs {
+        gap: 4px !important;
+        flex-wrap: wrap !important;
+      }
+      .admin-tab-btn {
+        padding: 8px 12px !important;
+        font-size: 12px !important;
+      }
+      .settings-form {
+        gap: 12px !important;
+        padding: 0 !important;
+      }
+      .search-card {
+        padding: 20px !important;
+        border-radius: 20px !important;
+      }
+      .stats-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 8px !important;
+      }
+      .stat-card {
+        padding: 10px !important;
+        gap: 8px !important;
+      }
+      .stat-value {
+        font-size: 13px !important;
+      }
     }
 
     /* Hamburger Menu Button */
@@ -2829,7 +2871,7 @@
   </div>
 
   <!-- Hamburger Menu Button -->
-  <button class="menu-trigger-btn" id="menuTriggerBtn" onclick="toggleMenu()" title="القائمة الرئيسية" style="display: none;">
+  <button class="menu-trigger-btn" id="menuTriggerBtn" onclick="toggleMenu()" title="القائمة الرئيسية" style="display: flex;">
     <span></span>
     <span></span>
     <span></span>
@@ -2854,7 +2896,7 @@
   <div class="app-container">
     
     <!-- Hero Label -->
-    <div class="hero-label" style="display: none;">
+    <div class="hero-label" style="display: block;">
       <span class="school-emoji">🏫</span>
       <h2 id="heroTitle">نتيجة أولى بكالوريا 2027</h2>
       <p id="heroSubtitle">بوابة نتائج الطلاب الرسمية - مدرسة المشير عبدالحكيم عامر</p>
@@ -2900,7 +2942,7 @@
     </div>
 
     <!-- 1. STUDENT SEARCH INTERFACE -->
-    <div id="searchView" class="search-card" style="display: none;">
+    <div id="searchView" class="search-card" style="display: flex;">
       <!-- Header -->
       <div class="search-header">
         <div class="badge-container">
@@ -3002,46 +3044,8 @@
       
       <!-- Podium for top 3 -->
       <div class="podium-container" id="top10Podium">
-          <div class="podium-spot second">
-            <div class="podium-avatar-wrapper">
-              <div class="podium-avatar">🥈</div>
-              <span class="podium-rank-badge">2</span>
-            </div>
-            <div class="podium-student-name" title="محمود أحمد إسماعيل علي">محمود أحمد إسماعيل علي</div>
-            <div class="podium-student-score">348.7 درجة</div>
-            <span class="podium-student-pct">91.76%</span>
-            <div class="podium-pedestal">
-              <span class="podium-pedestal-num">2</span>
-            </div>
-          </div>
-        
-          <div class="podium-spot first">
-            <div class="podium-avatar-wrapper">
-              <span class="podium-crown">👑</span>
-              <div class="podium-avatar">🥇</div>
-              <span class="podium-rank-badge">1</span>
-            </div>
-            <div class="podium-student-name" title="عبدالله أحمد إسماعيل علي">عبدالله أحمد إسماعيل علي</div>
-            <div class="podium-student-score">374.5 درجة</div>
-            <span class="podium-student-pct">98.55%</span>
-            <div class="podium-pedestal">
-              <span class="podium-pedestal-num">1</span>
-            </div>
-          </div>
-        
-          <div class="podium-spot third">
-            <div class="podium-avatar-wrapper">
-              <div class="podium-avatar">🥉</div>
-              <span class="podium-rank-badge">3</span>
-            </div>
-            <div class="podium-student-name" title="سعيد مصطفى كمال البدري">سعيد مصطفى كمال البدري</div>
-            <div class="podium-student-score">325.7 درجة</div>
-            <span class="podium-student-pct">85.71%</span>
-            <div class="podium-pedestal">
-              <span class="podium-pedestal-num">3</span>
-            </div>
-          </div>
-        </div>
+        <!-- Generated dynamically -->
+      </div>
       
       <!-- List table for remaining 4-10 -->
       <div class="top-list-table-wrapper">
@@ -3056,61 +3060,7 @@
             </tr>
           </thead>
           <tbody id="top10TableBody">
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">4</span></td>
-              <td style="font-weight: 800; color: var(--accent);">شريف محمد عادل الشناوي</td>
-              <td style="color: var(--text-sub);">مدرسة المشير عبدالحكيم عامر</td>
-              <td style="text-align: center; font-weight: bold;">321.3</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">84.55%</td>
-            </tr>
-          
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">5</span></td>
-              <td style="font-weight: 800; color: var(--accent);">طارق حسين كمال الشافعي</td>
-              <td style="color: var(--text-sub);">مدرسة المشير عبدالحكيم عامر</td>
-              <td style="text-align: center; font-weight: bold;">317.5</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">83.55%</td>
-            </tr>
-          
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">6</span></td>
-              <td style="font-weight: 800; color: var(--accent);">محمود علاء حلمي</td>
-              <td style="color: var(--text-sub);">مدرسة المشير عبدالحكيم عامر</td>
-              <td style="text-align: center; font-weight: bold;">308.1</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">81.08%</td>
-            </tr>
-          
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">7</span></td>
-              <td style="font-weight: 800; color: var(--accent);">عبد الرحمن محمود خالد الشناوي</td>
-              <td style="color: var(--text-sub);">مدرسة المشير عبدالحكيم عامر</td>
-              <td style="text-align: center; font-weight: bold;">308</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">81.05%</td>
-            </tr>
-          
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">8</span></td>
-              <td style="font-weight: 800; color: var(--accent);">إبراهيم إبراهيم عبد العزيز الشافعي</td>
-              <td style="color: var(--text-sub);">مدرسة المشير عبدالحكيم عامر</td>
-              <td style="text-align: center; font-weight: bold;">304.9</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">80.24%</td>
-            </tr>
-          
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">9</span></td>
-              <td style="font-weight: 800; color: var(--accent);">حسين حسين منصور عثمان</td>
-              <td style="color: var(--text-sub);">مدرسة المشير عبدالحكيم عامر</td>
-              <td style="text-align: center; font-weight: bold;">298.1</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">78.45%</td>
-            </tr>
-          
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">10</span></td>
-              <td style="font-weight: 800; color: var(--accent);">عبد الله أحمد عمر سليم</td>
-              <td style="color: var(--text-sub);">مدرسة المشير عبدالحكيم عامر</td>
-              <td style="text-align: center; font-weight: bold;">290.4</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">76.42%</td>
-            </tr>
+            <!-- Generated dynamically -->
           </tbody>
         </table>
       </div>
@@ -3119,17 +3069,13 @@
     <!-- 1.2 HONOR ROLL VIEW -->
     <div id="honorRollView" class="view-container" style="display: none;">
       <!-- Grid View of Years/Uploads -->
-      <div id="honorRollGridView" style="display: block;">
+      <div id="honorRollGridView">
         <div class="view-header">
           <h2>لوحة الشرف</h2>
           <p>أرشيف متفوقي بكالوريا والسنوات الدراسية السابقة</p>
         </div>
         <div class="honor-grid" id="honorRollGridContainer">
-          <div class="honor-card" onclick="showHonorRollDetails('honor_1782366689105')">
-            <span class="honor-card-icon">🏅</span>
-            <div class="honor-card-title">أوائل الصف الثاني الثانوي 2026</div>
-            <div class="honor-card-sub">عدد الأوائل: 10 طالب وطالبة</div>
-          </div>
+          <!-- Card components generated dynamically -->
         </div>
       </div>
       
@@ -3140,51 +3086,13 @@
             <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" strokewidth="2.5" style="transform: rotate(180deg);"><path d="M9 5l7 7-7 7"></path></svg>
             <span>العودة للأرشيف</span>
           </button>
-          <h2 id="honorRollSelectedTitle">أوائل الصف الثاني الثانوي 2026</h2>
-          <p id="honorRollSelectedSub">أرشيف لوحة المتفوقين الأوائل لـ (أوائل الصف الثاني الثانوي 2026)</p>
+          <h2 id="honorRollSelectedTitle">اسم لوحة الشرف</h2>
+          <p id="honorRollSelectedSub">أرشيف الطلاب المتفوقين الأوائل</p>
         </div>
         
         <!-- Podium for top 3 -->
         <div class="podium-container" id="honorDetailsPodium">
-          <div class="podium-spot second">
-            <div class="podium-avatar-wrapper">
-              <div class="podium-avatar">🥈</div>
-              <span class="podium-rank-badge">2</span>
-            </div>
-            <div class="podium-student-name" title="محمود علاء حلمي">محمود علاء حلمي</div>
-            <div class="podium-student-score">357</div>
-            <span class="podium-student-pct">—</span>
-            <div class="podium-pedestal">
-              <span class="podium-pedestal-num">2</span>
-            </div>
-          </div>
-        
-          <div class="podium-spot first">
-            <div class="podium-avatar-wrapper">
-              <span class="podium-crown">👑</span>
-              <div class="podium-avatar">🥇</div>
-              <span class="podium-rank-badge">1</span>
-            </div>
-            <div class="podium-student-name" title="محمود أحمد إسماعيل علي">محمود أحمد إسماعيل علي</div>
-            <div class="podium-student-score">368</div>
-            <span class="podium-student-pct">—</span>
-            <div class="podium-pedestal">
-              <span class="podium-pedestal-num">1</span>
-            </div>
-          </div>
-        
-          <div class="podium-spot third">
-            <div class="podium-avatar-wrapper">
-              <div class="podium-avatar">🥉</div>
-              <span class="podium-rank-badge">3</span>
-            </div>
-            <div class="podium-student-name" title="طارق حسين كمال الشافعي">طارق حسين كمال الشافعي</div>
-            <div class="podium-student-score">355</div>
-            <span class="podium-student-pct">—</span>
-            <div class="podium-pedestal">
-              <span class="podium-pedestal-num">3</span>
-            </div>
-          </div>
+          <!-- Generated dynamically -->
         </div>
         
         <!-- Table for 4-10 -->
@@ -3200,69 +3108,15 @@
               </tr>
             </thead>
             <tbody id="honorDetailsTableBody">
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">4</span></td>
-              <td style="font-weight: 800; color: var(--accent);">أحمد حسين منصور نصر</td>
-              <td style="text-align: center; color: var(--text-sub); font-weight: bold;">—</td>
-              <td style="text-align: center; font-weight: bold;">352</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">—</td>
-            </tr>
-          
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">5</span></td>
-              <td style="font-weight: 800; color: var(--accent);">طارق طه كمال عثمان</td>
-              <td style="text-align: center; color: var(--text-sub); font-weight: bold;">—</td>
-              <td style="text-align: center; font-weight: bold;">348</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">—</td>
-            </tr>
-          
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">6</span></td>
-              <td style="font-weight: 800; color: var(--accent);">عبد الله أحمد عمر سليم</td>
-              <td style="text-align: center; color: var(--text-sub); font-weight: bold;">—</td>
-              <td style="text-align: center; font-weight: bold;">345</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">—</td>
-            </tr>
-          
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">7</span></td>
-              <td style="font-weight: 800; color: var(--accent);">عبد الرحمن محمود خالد الشناوي</td>
-              <td style="text-align: center; color: var(--text-sub); font-weight: bold;">—</td>
-              <td style="text-align: center; font-weight: bold;">340</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">—</td>
-            </tr>
-          
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">8</span></td>
-              <td style="font-weight: 800; color: var(--accent);">سعيد مصطفى كمال البدري</td>
-              <td style="text-align: center; color: var(--text-sub); font-weight: bold;">—</td>
-              <td style="text-align: center; font-weight: bold;">335</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">—</td>
-            </tr>
-          
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">9</span></td>
-              <td style="font-weight: 800; color: var(--accent);">شريف مصطفى خالد الشناوي</td>
-              <td style="text-align: center; color: var(--text-sub); font-weight: bold;">—</td>
-              <td style="text-align: center; font-weight: bold;">333</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">—</td>
-            </tr>
-          
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">10</span></td>
-              <td style="font-weight: 800; color: var(--accent);">إبراهيم إبراهيم عبد العزيز الشافعي</td>
-              <td style="text-align: center; color: var(--text-sub); font-weight: bold;">—</td>
-              <td style="text-align: center; font-weight: bold;">320</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">—</td>
-            </tr>
-          </tbody>
+              <!-- Generated dynamically -->
+            </tbody>
           </table>
         </div>
       </div>
     </div>
 
     <!-- 2. ADMIN PANEL INTERFACE -->
-    <div id="adminView" class="admin-container" style="display: block;">
+    <div id="adminView" class="admin-container" style="display: none;">
       <div class="admin-header">
         <button class="back-btn" onclick="toggleAdminMode(false)">
           <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" strokewidth="2.5"><path d="M9 5l7 7-7 7"></path></svg>
@@ -3566,17 +3420,8 @@
                   </tr>
                 </thead>
                 <tbody id="honorMgmtTableBody">
-          <tr>
-            <td style="font-weight: bold;">أوائل الصف الثاني الثانوي 2026</td>
-            <td style="text-align: center; color: var(--text-muted);">10 طالب</td>
-            <td style="text-align: center;">
-              <button onclick="deleteHonorRoll('honor_1782366689105')" class="delete-honor-btn">
-                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" strokewidth="2.5" style="vertical-align: middle;"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                <span>حذف</span>
-              </button>
-            </td>
-          </tr>
-        </tbody>
+                  <!-- Honor roll lists listed here -->
+                </tbody>
               </table>
             </div>
           </div>
@@ -4514,20 +4359,25 @@
       const triggerIcon = document.getElementById('adminTriggerIcon');
 
       if (isAdminMode) {
+        // Force-hide ALL client-facing views
         searchView.style.display = 'none';
         document.getElementById('top10View').style.display = 'none';
         document.getElementById('honorRollView').style.display = 'none';
-        document.querySelector('.hero-label').style.display = 'none'; // Hide hero label
-        
+        document.querySelector('.hero-label').style.display = 'none';
+
         // Hide hamburger menu trigger
         document.getElementById('menuTriggerBtn').style.display = 'none';
         document.getElementById('navOverlayMenu').classList.remove('open');
         document.getElementById('menuTriggerBtn').classList.remove('active');
 
+        // Show admin panel
         adminView.style.display = 'block';
         triggerText.innerText = 'صفحة الطلاب';
         triggerIcon.innerHTML = '<path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />';
-        
+
+        // Scroll to top so admin panel is visible from the start on mobile
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
         // Show login card if not logged in
         if (!isAdminLoggedIn) {
           document.getElementById('adminLoginCard').style.display = 'flex';
@@ -4541,9 +4391,10 @@
         adminView.style.display = 'none';
         triggerText.innerText = 'لوحة تحكم الإدارة';
         triggerIcon.innerHTML = '<path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />';
-        
+
         // Restore hamburger menu trigger and show search
         document.getElementById('menuTriggerBtn').style.display = 'flex';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         showView('search');
       }
     }
@@ -5626,12 +5477,29 @@
       // 2. Prepare database strings
       const scriptToEmbed = `<script id="database-script">window.STUDENT_DATABASE = ${JSON.stringify(studentDatabase)}; window.PORTAL_SETTINGS = ${JSON.stringify(portalSettings)}; window.HONOR_ROLL_DATABASE = ${JSON.stringify(honorRollDatabase)};<\/script>`;
 
-      // 3. Find and replace the placeholder script tag
-      const regex = /<script id="database-script">[\s\S]*?<\/script>/;
-      const newHtml = htmlContent.replace(regex, scriptToEmbed);
+      // 3. Reset view states so exported file always opens on search page
+      const tmpDiv = document.createElement('div');
+      tmpDiv.innerHTML = htmlContent;
+      const _sv = tmpDiv.querySelector('#searchView');
+      const _av = tmpDiv.querySelector('#adminView');
+      const _t10 = tmpDiv.querySelector('#top10View');
+      const _hr = tmpDiv.querySelector('#honorRollView');
+      const _hero = tmpDiv.querySelector('.hero-label');
+      const _menu = tmpDiv.querySelector('#menuTriggerBtn');
+      if (_sv)   _sv.style.display = 'flex';
+      if (_av)   _av.style.display = 'none';
+      if (_t10)  _t10.style.display = 'none';
+      if (_hr)   _hr.style.display = 'none';
+      if (_hero) _hero.style.display = 'block';
+      if (_menu) _menu.style.display = 'flex';
+      htmlContent = tmpDiv.innerHTML;
 
-      // 4. Create a Blob and download it
-      const blob = new Blob(['<!DOCTYPE html>\n' + newHtml], { type: 'text/html;charset=utf-8' });
+      // 4. Find and replace the placeholder script tag
+      const regex = /<script id="database-script">[\s\S]*?<\/script>/;
+      const newHtml = '<!DOCTYPE html>\n' + htmlContent.replace(regex, scriptToEmbed);
+
+      // 5. Create a Blob and download it
+      const blob = new Blob([newHtml], { type: 'text/html;charset=utf-8' });
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
       link.download = `نتيجة_الطلاب_${portalSettings.schoolName.replace(/\s+/g, '_')}_${portalSettings.year}.html`;
@@ -5671,17 +5539,39 @@
         let htmlContent = document.documentElement.outerHTML;
         const scriptToEmbed = `<script id="database-script">window.STUDENT_DATABASE = ${JSON.stringify(studentDatabase)}; window.PORTAL_SETTINGS = ${JSON.stringify(portalSettings)}; window.HONOR_ROLL_DATABASE = ${JSON.stringify(honorRollDatabase)};<\/script>`;
         const regex = /<script id="database-script">[\s\S]*?<\/script>/;
-        
-        // Clean out any sensitive status element messages before saving HTML to public repo
+
+        // ─── Fix inline styles: reset all views to their clean default state ───
+        // So the published page always opens on the student search page, never the admin panel
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = htmlContent;
+
+        // Always show searchView, hide admin/top10/honor views on page load
+        const svEl = tempDiv.querySelector('#searchView');
+        const avEl = tempDiv.querySelector('#adminView');
+        const t10El = tempDiv.querySelector('#top10View');
+        const hrEl = tempDiv.querySelector('#honorRollView');
+        const heroEl = tempDiv.querySelector('.hero-label');
+        const menuBtn = tempDiv.querySelector('#menuTriggerBtn');
+
+        if (svEl)   svEl.style.display = 'flex';
+        if (avEl)   avEl.style.display = 'none';
+        if (t10El)  t10El.style.display = 'none';
+        if (hrEl)   hrEl.style.display = 'none';
+        if (heroEl) heroEl.style.display = 'block';
+        if (menuBtn) menuBtn.style.display = 'flex';
+
+        // Clear publish status message (no private info in public HTML)
         const statusMsg = tempDiv.querySelector('#githubPublishStatus');
         if (statusMsg) {
           statusMsg.innerHTML = '';
           statusMsg.style.display = 'none';
         }
-        htmlContent = tempDiv.innerHTML;
 
+        // Clear admin password inputs
+        const adminPassInput = tempDiv.querySelector('#adminPasswordInput');
+        if (adminPassInput) adminPassInput.value = '';
+
+        htmlContent = tempDiv.innerHTML;
         const newHtml = '<!DOCTYPE html>\n' + htmlContent.replace(regex, scriptToEmbed);
 
         // 2. Fetch SHA of existing index.html on GitHub if any
