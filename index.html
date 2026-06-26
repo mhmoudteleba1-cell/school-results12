@@ -4046,6 +4046,7 @@
           item.onclick = () => showStudentResult(student);
 
           const hasFailSub = Object.keys(student.grades || {}).some(subj => {
+            if (student.excludedSubjects?.[subj]) return false; // skip excluded subjects
             const s = student.grades[subj];
             const m = student.maxGrades?.[subj] || (subj.includes('عربي') || subj.includes('العربية') ? 80 : 60);
             return s < (m * (portalSettings.passingPercentage / 100));
@@ -4260,6 +4261,7 @@
     function showStudentResult(student) {
       // Check pass/fail
       const hasFailingSubject = Object.keys(student.grades || {}).some(subj => {
+        if (student.excludedSubjects?.[subj]) return false; // skip excluded subjects
         const s = student.grades[subj];
         const m = student.maxGrades?.[subj] || (subj.includes('عربي') || subj.includes('العربية') ? 80 : 60);
         return s < (m * (portalSettings.passingPercentage / 100));
@@ -4410,6 +4412,7 @@
     function openDetailedModal(student) {
       // Check pass/fail
       const hasFailingSubject = Object.keys(student.grades || {}).some(subj => {
+        if (student.excludedSubjects?.[subj]) return false; // skip excluded subjects
         const s = student.grades[subj];
         const m = student.maxGrades?.[subj] || (subj.includes('عربي') || subj.includes('العربية') ? 80 : 60);
         return s < (m * (portalSettings.passingPercentage / 100));
