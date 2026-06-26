@@ -2961,7 +2961,7 @@
       <span>العشرة الأوائل</span>
     </button>
     <button class="nav-menu-item" id="menuItemHonor" onclick="showView('honor')">
-      <svg viewBox="0 0 24 24"><path d="M12 14l9-5-9-5-9 5 9 5zm0 0v6M12 20h0"></path></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
       <span>لوحة الشرف</span>
     </button>
   </div>
@@ -2976,7 +2976,7 @@
     </div>
 
     <!-- Confetti Canvas (always in DOM, drawn only when active) -->
-    <canvas id="confettiCanvas" width="1280" height="869"></canvas>
+    <canvas id="confettiCanvas"></canvas>
 
     <!-- Congratulations Overlay (shown when student passes) -->
     <div id="congratsOverlay" class="congrats-overlay" onclick="handleCongratsOutsideClick(event)" style="display: none;">
@@ -2989,16 +2989,16 @@
         <span class="congrats-trophy">🏆</span>
         <h2 class="congrats-title">مبروك النجاح!</h2>
         <p class="congrats-subtitle">أحسنت وأبدعت — استمر في التفوق</p>
-        <p class="congrats-name" id="congratsStudentName">محمد أحمد إسماعيل</p>
+        <p class="congrats-name" id="congratsStudentName">اسم الطالب</p>
 
         <div class="congrats-scores">
           <div class="congrats-score-box">
             <div class="congrats-score-label">المجموع</div>
-            <div class="congrats-score-value" id="congratsTotal">380</div>
+            <div class="congrats-score-value" id="congratsTotal">—</div>
           </div>
           <div class="congrats-score-box">
             <div class="congrats-score-label">النسبة المئوية</div>
-            <div class="congrats-score-value" id="congratsPercentage">100.0%</div>
+            <div class="congrats-score-value" id="congratsPercentage">—%</div>
           </div>
         </div>
 
@@ -3171,7 +3171,7 @@
             </tr>
           </thead>
           <tbody id="top10TableBody">
-            <tr style="cursor: pointer; transition: background 0.2s; background: transparent;" onmouseover="this.style.background='var(--bg-input)'" onmouseout="this.style.background='transparent'" onclick="openStudentBySeat('20508')">
+            <tr style="cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='var(--bg-input)'" onmouseout="this.style.background='transparent'" onclick="openStudentBySeat('20508')">
               <td style="text-align: center;"><span class="top-rank-badge">4</span></td>
               <td style="font-weight: 800; color: var(--accent);">سعيد مصطفى كمال البدري</td>
               <td style="color: var(--text-sub);">مدرسة المشير عبدالحكيم عامر</td>
@@ -3234,17 +3234,13 @@
     <!-- 1.2 HONOR ROLL VIEW -->
     <div id="honorRollView" class="view-container" style="display: none;">
       <!-- Grid View of Years/Uploads -->
-      <div id="honorRollGridView" style="display: block;">
+      <div id="honorRollGridView">
         <div class="view-header">
           <h2>لوحة الشرف</h2>
           <p>أرشيف متفوقي بكالوريا والسنوات الدراسية السابقة</p>
         </div>
         <div class="honor-grid" id="honorRollGridContainer">
-          <div class="honor-card" onclick="showHonorRollDetails('honor_1782404394236')">
-            <span class="honor-card-icon">🏅</span>
-            <div class="honor-card-title">أوائل الصف الثاني الثانوي 2026</div>
-            <div class="honor-card-sub">عدد الأوائل: 10 طالب وطالبة</div>
-          </div>
+          <!-- Card components generated dynamically -->
         </div>
       </div>
       
@@ -3255,51 +3251,13 @@
             <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" strokewidth="2.5" style="transform: rotate(180deg);"><path d="M9 5l7 7-7 7"></path></svg>
             <span>العودة للأرشيف</span>
           </button>
-          <h2 id="honorRollSelectedTitle">أوائل الصف الأول الثانوي 2020</h2>
-          <p id="honorRollSelectedSub">أرشيف لوحة المتفوقين الأوائل لـ (أوائل الصف الأول الثانوي 2020)</p>
+          <h2 id="honorRollSelectedTitle">اسم لوحة الشرف</h2>
+          <p id="honorRollSelectedSub">أرشيف الطلاب المتفوقين الأوائل</p>
         </div>
         
         <!-- Podium for top 3 -->
         <div class="podium-container" id="honorDetailsPodium">
-          <div class="podium-spot second">
-            <div class="podium-avatar-wrapper">
-              <div class="podium-avatar">🥈</div>
-              <span class="podium-rank-badge">2</span>
-            </div>
-            <div class="podium-student-name" title="محمود علاء حلمي">محمود علاء حلمي</div>
-            <div class="podium-student-score">357</div>
-            <span class="podium-student-pct">93.9%</span>
-            <div class="podium-pedestal">
-              <span class="podium-pedestal-num">2</span>
-            </div>
-          </div>
-        
-          <div class="podium-spot first">
-            <div class="podium-avatar-wrapper">
-              <span class="podium-crown">👑</span>
-              <div class="podium-avatar">🥇</div>
-              <span class="podium-rank-badge">1</span>
-            </div>
-            <div class="podium-student-name" title="محمود أحمد إسماعيل علي">محمود أحمد إسماعيل علي</div>
-            <div class="podium-student-score">368</div>
-            <span class="podium-student-pct">96.8%</span>
-            <div class="podium-pedestal">
-              <span class="podium-pedestal-num">1</span>
-            </div>
-          </div>
-        
-          <div class="podium-spot third">
-            <div class="podium-avatar-wrapper">
-              <div class="podium-avatar">🥉</div>
-              <span class="podium-rank-badge">3</span>
-            </div>
-            <div class="podium-student-name" title="طارق حسين كمال الشافعي">طارق حسين كمال الشافعي</div>
-            <div class="podium-student-score">355</div>
-            <span class="podium-student-pct">93.4%</span>
-            <div class="podium-pedestal">
-              <span class="podium-pedestal-num">3</span>
-            </div>
-          </div>
+          <!-- Generated dynamically -->
         </div>
         
         <!-- Table for 4-10 -->
@@ -3315,62 +3273,8 @@
               </tr>
             </thead>
             <tbody id="honorDetailsTableBody">
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">4</span></td>
-              <td style="font-weight: 800; color: var(--accent);">أحمد حسين منصور نصر</td>
-              <td style="text-align: center; color: var(--text-sub); font-weight: bold;">380</td>
-              <td style="text-align: center; font-weight: bold;">352</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">92.6%</td>
-            </tr>
-          
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">5</span></td>
-              <td style="font-weight: 800; color: var(--accent);">طارق طه كمال عثمان</td>
-              <td style="text-align: center; color: var(--text-sub); font-weight: bold;">380</td>
-              <td style="text-align: center; font-weight: bold;">348</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">91.6%</td>
-            </tr>
-          
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">6</span></td>
-              <td style="font-weight: 800; color: var(--accent);">عبد الله أحمد عمر سليم</td>
-              <td style="text-align: center; color: var(--text-sub); font-weight: bold;">380</td>
-              <td style="text-align: center; font-weight: bold;">345</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">90.8%</td>
-            </tr>
-          
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">7</span></td>
-              <td style="font-weight: 800; color: var(--accent);">عبد الرحمن محمود خالد الشناوي</td>
-              <td style="text-align: center; color: var(--text-sub); font-weight: bold;">380</td>
-              <td style="text-align: center; font-weight: bold;">340</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">89.5%</td>
-            </tr>
-          
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">8</span></td>
-              <td style="font-weight: 800; color: var(--accent);">سعيد مصطفى كمال البدري</td>
-              <td style="text-align: center; color: var(--text-sub); font-weight: bold;">380</td>
-              <td style="text-align: center; font-weight: bold;">335</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">88.2%</td>
-            </tr>
-          
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">9</span></td>
-              <td style="font-weight: 800; color: var(--accent);">شريف مصطفى خالد الشناوي</td>
-              <td style="text-align: center; color: var(--text-sub); font-weight: bold;">380</td>
-              <td style="text-align: center; font-weight: bold;">333</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">87.6%</td>
-            </tr>
-          
-            <tr>
-              <td style="text-align: center;"><span class="top-rank-badge">10</span></td>
-              <td style="font-weight: 800; color: var(--accent);">إبراهيم إبراهيم عبد العزيز الشافعي</td>
-              <td style="text-align: center; color: var(--text-sub); font-weight: bold;">380</td>
-              <td style="text-align: center; font-weight: bold;">320</td>
-              <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">84.2%</td>
-            </tr>
-          </tbody>
+              <!-- Generated dynamically -->
+            </tbody>
           </table>
         </div>
       </div>
@@ -3577,7 +3481,7 @@
             </div>
           </div>
 
-          <p id="settingsStatus" style="font-weight: bold; font-size: 14px; display: none;" class="status-badge pass">تم حفظ الإعدادات وتحديث الموقع بنجاح!</p>
+          <p id="settingsStatus" style="font-weight: bold; font-size: 14px; display: none;"></p>
           
           <button onclick="saveGeneralSettings(event)" class="submit-button" style="align-self: flex-start;">
             <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2.5"><path d="M5 13l4 4L19 7"></path></svg>
@@ -3664,7 +3568,7 @@
             </div>
             
             <p id="honorUploadError" style="color: var(--accent-fail); font-weight: bold; display: none; margin-bottom: 12px;"></p>
-            <p id="honorUploadStatus" style="color: var(--accent-pass); font-weight: bold; display: block; margin-bottom: 12px;">تم بنجاح حفظ ونشر لوحة الشرف "أوائل الصف الثاني الثانوي 2026"!</p>
+            <p id="honorUploadStatus" style="color: var(--accent-pass); font-weight: bold; display: none; margin-bottom: 12px;"></p>
 
             <!-- Preview of parsed Honor Roll before saving -->
             <div id="honorPreviewContainer" style="display: none; margin-bottom: 16px;">
@@ -3680,87 +3584,7 @@
                       <th style="width: 70px; text-align: center; padding: 8px 10px;">النسبة</th>
                     </tr>
                   </thead>
-                  <tbody id="honorPreviewTableBody">
-              <tr>
-                <td style="text-align: center;">1</td>
-                <td style="font-weight: bold; color: var(--accent);">يوسف رجب محمد إسماعيل حسين</td>
-                <td style="text-align: center; font-weight: bold; color: var(--text-sub);">380</td>
-                <td style="text-align: center;">369</td>
-                <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">97.1%</td>
-              </tr>
-            
-              <tr>
-                <td style="text-align: center;">2</td>
-                <td style="font-weight: bold; color: var(--accent);">ضحى علاء رمضان خلف</td>
-                <td style="text-align: center; font-weight: bold; color: var(--text-sub);">380</td>
-                <td style="text-align: center;">367.9</td>
-                <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">96.8%</td>
-              </tr>
-            
-              <tr>
-                <td style="text-align: center;">3</td>
-                <td style="font-weight: bold; color: var(--accent);">سارة رضا محمد مندراوي هايم</td>
-                <td style="text-align: center; font-weight: bold; color: var(--text-sub);">380</td>
-                <td style="text-align: center;">366</td>
-                <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">96.3%</td>
-              </tr>
-            
-              <tr>
-                <td style="text-align: center;">4</td>
-                <td style="font-weight: bold; color: var(--accent);">مريم وائل عاشور أحمد محمد</td>
-                <td style="text-align: center; font-weight: bold; color: var(--text-sub);">380</td>
-                <td style="text-align: center;">361.5</td>
-                <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">95.1%</td>
-              </tr>
-            
-              <tr>
-                <td style="text-align: center;">5</td>
-                <td style="font-weight: bold; color: var(--accent);">منار رضا إبراهيم أحمد إسماعيل</td>
-                <td style="text-align: center; font-weight: bold; color: var(--text-sub);">380</td>
-                <td style="text-align: center;">355.2</td>
-                <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">93.5%</td>
-              </tr>
-            
-              <tr>
-                <td style="text-align: center;">6</td>
-                <td style="font-weight: bold; color: var(--accent);">مريم ملاك ناشد يونان ميخائيل</td>
-                <td style="text-align: center; font-weight: bold; color: var(--text-sub);">380</td>
-                <td style="text-align: center;">353.2</td>
-                <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">92.9%</td>
-              </tr>
-            
-              <tr>
-                <td style="text-align: center;">7</td>
-                <td style="font-weight: bold; color: var(--accent);">مصطفى إيهاب محمد محمد عبد العليم</td>
-                <td style="text-align: center; font-weight: bold; color: var(--text-sub);">380</td>
-                <td style="text-align: center;">352.6</td>
-                <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">92.8%</td>
-              </tr>
-            
-              <tr>
-                <td style="text-align: center;">8</td>
-                <td style="font-weight: bold; color: var(--accent);">دميانة سامي حنا عبد النور ناروز</td>
-                <td style="text-align: center; font-weight: bold; color: var(--text-sub);">380</td>
-                <td style="text-align: center;">351.2</td>
-                <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">92.4%</td>
-              </tr>
-            
-              <tr>
-                <td style="text-align: center;">9</td>
-                <td style="font-weight: bold; color: var(--accent);">حسن علي رجب محمد</td>
-                <td style="text-align: center; font-weight: bold; color: var(--text-sub);">380</td>
-                <td style="text-align: center;">349</td>
-                <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">91.8%</td>
-              </tr>
-            
-              <tr>
-                <td style="text-align: center;">10</td>
-                <td style="font-weight: bold; color: var(--accent);">محمود أحمد إسماعيل علي</td>
-                <td style="text-align: center; font-weight: bold; color: var(--text-sub);">380</td>
-                <td style="text-align: center;">348.7</td>
-                <td style="text-align: center; color: var(--accent-pass); font-weight: bold;">91.8%</td>
-              </tr>
-            </tbody>
+                  <tbody id="honorPreviewTableBody"></tbody>
                 </table>
               </div>
               
@@ -3784,17 +3608,8 @@
                   </tr>
                 </thead>
                 <tbody id="honorMgmtTableBody">
-          <tr>
-            <td style="font-weight: bold;">أوائل الصف الثاني الثانوي 2026</td>
-            <td style="text-align: center; color: var(--text-muted);">10 طالب</td>
-            <td style="text-align: center;">
-              <button onclick="deleteHonorRoll('honor_1782404394236')" class="delete-honor-btn">
-                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" strokewidth="2.5" style="vertical-align: middle;"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                <span>حذف</span>
-              </button>
-            </td>
-          </tr>
-        </tbody>
+                  <!-- Honor roll lists listed here -->
+                </tbody>
               </table>
             </div>
           </div>
@@ -3832,7 +3647,7 @@
       <div class="modal-body">
         <div class="report-card">
           <!-- Text watermark instead of SVG -->
-          <div id="cardWatermark" class="report-watermark">مدرسة المشير عبدالحكيم عامر</div>
+          <div id="cardWatermark" class="report-watermark">مدرسة المشير عبد الحكيم عامر</div>
 
           <div class="report-card-inner">
             <!-- Corner decorations for print -->
@@ -3868,24 +3683,24 @@
             <!-- Logo & School header info -->
             <div class="report-school-header">
               <div class="school-info">
-                <h3 id="cardSchoolName">مدرسة المشير عبدالحكيم عامر</h3>
+                <h3 id="cardSchoolName">مدرستنا الخاصة</h3>
                 <p id="cardGov">محافظة المنيا</p>
                 <p id="cardAdmin">إدارة سمالوط التعليمية</p>
               </div>
               <div>
                 <span id="cardStatusBadge" class="status-badge pass">
-          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" strokewidth="3"><path d="M5 13l4 4L19 7"></path></svg>
-          <span id="cardStatusText">ناجح</span>
-        </span>
+                  <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" strokewidth="3"><path d="M5 13l4 4L19 7"></path></svg>
+                  <span id="cardStatusText">ناجح</span>
+                </span>
               </div>
             </div>
 
             <!-- Student Details Grid -->
             <div class="report-top-info">
-              <div class="info-item">اسم الطالب: <span id="cardStudentName">محمد أحمد إسماعيل</span></div>
-              <div class="info-item">رقم الجلوس: <span id="cardSeatNumber">242</span></div>
-              <div class="info-item">المدرسة: <span id="cardStudentSchool">مدرسة المشير عبدالحكيم عامر</span></div>
-              <div class="info-item">العام الدراسي: <span id="cardYear">2027</span></div>
+              <div class="info-item">اسم الطالب: <span id="cardStudentName">أحمد محمد علي</span></div>
+              <div class="info-item">رقم الجلوس: <span id="cardSeatNumber">12345</span></div>
+              <div class="info-item">المدرسة: <span id="cardStudentSchool">مدرسة النصر الخاصة</span></div>
+              <div class="info-item">العام الدراسي: <span id="cardYear">2026</span></div>
             </div>
 
             <!-- Grades Table -->
@@ -3899,72 +3714,7 @@
                     <th style="text-align: center;">حالة المادة</th>
                   </tr>
                 </thead>
-                <tbody id="cardTableBody"><tr>
-          <td>
-            اللغة العربية
-            
-          </td>
-          <td style="text-align: center;">80</td>
-          <td style="text-align: center; color: var(--text-main)">80</td>
-          <td style="text-align: center;">
-            <span class="grade-status mumtaz">ممتاز</span>
-          </td>
-        </tr><tr>
-          <td>
-            الرياضيات
-            
-          </td>
-          <td style="text-align: center;">60</td>
-          <td style="text-align: center; color: var(--text-main)">60</td>
-          <td style="text-align: center;">
-            <span class="grade-status mumtaz">ممتاز</span>
-          </td>
-        </tr><tr>
-          <td>
-            اللغة الإنجليزية
-            
-          </td>
-          <td style="text-align: center;">60</td>
-          <td style="text-align: center; color: var(--text-main)">60</td>
-          <td style="text-align: center;">
-            <span class="grade-status mumtaz">ممتاز</span>
-          </td>
-        </tr><tr>
-          <td>
-            الفيزياء
-            
-          </td>
-          <td style="text-align: center;">60</td>
-          <td style="text-align: center; color: var(--text-main)">60</td>
-          <td style="text-align: center;">
-            <span class="grade-status mumtaz">ممتاز</span>
-          </td>
-        </tr><tr>
-          <td>
-            التاريخ
-            
-          </td>
-          <td style="text-align: center;">60</td>
-          <td style="text-align: center; color: var(--text-main)">60</td>
-          <td style="text-align: center;">
-            <span class="grade-status mumtaz">ممتاز</span>
-          </td>
-        </tr><tr>
-          <td>
-            الكيمياء
-            
-          </td>
-          <td style="text-align: center;">60</td>
-          <td style="text-align: center; color: var(--text-main)">60</td>
-          <td style="text-align: center;">
-            <span class="grade-status mumtaz">ممتاز</span>
-          </td>
-        </tr><tr class="total-row">
-        <td>المجموع الكلي والنسبة المئوية</td>
-        <td style="text-align: center;">380</td>
-        <td style="text-align: center;">380.00</td>
-        <td style="text-align: center; font-weight: 800;">%100.00</td>
-      </tr></tbody>
+                <tbody id="cardTableBody"></tbody>
               </table>
             </div>
 
@@ -3976,7 +3726,7 @@
               </div>
               <div class="signature-block">
                 <p class="sig-title">مدير المدرسة</p>
-                <p class="sig-name" id="cardPrincipal">أ. علاء سيد جاد</p>
+                <p class="sig-name" id="cardPrincipal">علاء سيد جاد</p>
               </div>
             </div>
           </div>
