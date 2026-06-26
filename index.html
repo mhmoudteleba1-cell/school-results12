@@ -2196,6 +2196,68 @@
         align-self: flex-start !important;
         margin-bottom: 6px !important;
       }
+
+      /* ── Performance optimizations to eliminate mobile lag ── */
+      
+      /* Disable expensive backdrop-filter blur on mobile */
+      *, *::before, *::after {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+      }
+
+      /* Adjust card colors to be solid/semi-solid instead of transparent blurred glass */
+      .search-card,
+      .admin-container,
+      .appearance-sidebar,
+      .top-list-table-wrapper,
+      .stats-panel,
+      .podium-card,
+      .back-btn,
+      .nav-overlay-menu,
+      .menu-trigger-btn,
+      .modal-card {
+        background: var(--bg-card-solid) !important;
+        border-color: rgba(255, 255, 255, 0.08) !important;
+      }
+      .footer-card {
+        background: var(--bg-card-solid) !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+      }
+
+      /* Disable background orb animations on mobile */
+      .bg-orb {
+        animation: none !important;
+        transform: none !important;
+        will-change: auto !important;
+        opacity: 0.08 !important; /* Keep a very subtle static color glow */
+      }
+
+      /* Stop all complex/infinite CSS animations that cause repaints on mobile */
+      .footer-card::before {
+        animation: none !important;
+        background: linear-gradient(135deg, #a855f7, #6366f1, #10b981) !important;
+      }
+      .footer-card::after {
+        animation: none !important;
+        display: none !important;
+      }
+      .footer-label .sparkle {
+        animation: none !important;
+      }
+      .footer-name-badge .name-text {
+        animation: none !important;
+        background: linear-gradient(90deg, #a855f7, #6366f1, #38bdf8, #10b981) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+      }
+      .footer-heart,
+      .footer-dot,
+      .podium-spot.first .podium-crown,
+      .pulse-ring,
+      .emoji-float {
+        animation: none !important;
+      }
     }
 
     /* Hamburger Menu Button */
@@ -3337,7 +3399,7 @@
             </div>
 
             <!-- Unlock UI -->
-            <div id="institutionLockContainer" style="display: flex; flex-direction: column; gap: 12px; align-items: center; padding: 10px 0px;">
+            <div id="institutionLockContainer" style="display: flex; flex-direction: column; gap: 12px; align-items: center; padding: 10px 0;">
               <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--accent-soft); display: flex; align-items: center; justify-content: center; margin-bottom: 8px;">
                 <svg viewBox="0 0 24 24" width="24" height="24" stroke="var(--accent)" fill="none" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
               </div>
@@ -3411,7 +3473,7 @@
             </div>
           </div>
 
-          <p id="settingsStatus" style="font-weight: bold; font-size: 14px; display: block;" class="status-badge pass">تم حفظ الإعدادات وتحديث الموقع بنجاح!</p>
+          <p id="settingsStatus" style="font-weight: bold; font-size: 14px; display: none;"></p>
           
           <button onclick="saveGeneralSettings(event)" class="submit-button" style="align-self: flex-start;">
             <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2.5"><path d="M5 13l4 4L19 7"></path></svg>
