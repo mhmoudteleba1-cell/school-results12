@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" data-theme="light"><head>
+<html lang="ar" dir="rtl" data-theme="dark"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="mobile-web-app-capable" content="yes">
@@ -3012,11 +3012,11 @@
   <div class="appearance-sidebar">
     <div class="sidebar-label">المظهر</div>
     <div class="sidebar-divider"></div>
-    <button onclick="setTheme('dark')" id="themeBtnDark" class="theme-toggle-option">
+    <button onclick="setTheme('dark')" id="themeBtnDark" class="theme-toggle-option active">
       <svg viewBox="0 0 24 24"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" stroke-linecap="round" stroke-linejoin="round"></path></svg>
       <span>داكن</span>
     </button>
-    <button onclick="setTheme('light')" id="themeBtnLight" class="theme-toggle-option active">
+    <button onclick="setTheme('light')" id="themeBtnLight" class="theme-toggle-option">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M2 12h2m16 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke-linecap="round"></path></svg>
       <span>فاتح</span>
     </button>
@@ -3395,11 +3395,11 @@
           <div style="padding: 16px 20px; background: var(--bg-input); border: 1px solid var(--border-color); border-radius: var(--border-radius-sm); margin-bottom: 4px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
               <p style="font-size: 12px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin: 0;">🏫 بيانات المؤسسة</p>
-              <span id="instLockBadge" class="status-badge pass" style="font-size: 11px; padding: 4px 8px; background: var(--accent-soft); color: var(--accent); cursor: pointer; display: inline-block;" onclick="lockInstitutionData()">🔒 قفل البيانات</span>
+              <span id="instLockBadge" class="status-badge pass" style="font-size: 11px; padding: 4px 8px; background: var(--accent-soft); color: var(--accent); cursor: pointer; display: none;" onclick="lockInstitutionData()">🔒 قفل البيانات</span>
             </div>
 
             <!-- Unlock UI -->
-            <div id="institutionLockContainer" style="display: none; flex-direction: column; gap: 12px; align-items: center; padding: 10px 0px;">
+            <div id="institutionLockContainer" style="display: flex; flex-direction: column; gap: 12px; align-items: center; padding: 10px 0px;">
               <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--accent-soft); display: flex; align-items: center; justify-content: center; margin-bottom: 8px;">
                 <svg viewBox="0 0 24 24" width="24" height="24" stroke="var(--accent)" fill="none" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
               </div>
@@ -3412,7 +3412,7 @@
             </div>
 
             <!-- Institution Form Fields -->
-            <div id="institutionFieldsContainer" style="display: flex; flex-direction: column; gap: 16px;">
+            <div id="institutionFieldsContainer" style="display: none; flex-direction: column; gap: 16px;">
               <div class="form-group">
                 <label>اسم المدرسة الافتراضي</label>
                 <input type="text" id="setSchoolName" class="form-input" required="">
@@ -3473,7 +3473,7 @@
             </div>
           </div>
 
-          <p id="settingsStatus" style="font-weight: bold; font-size: 14px; display: none;"></p>
+          <p id="settingsStatus" style="font-weight: bold; font-size: 14px; display: none;" class="status-badge pass">تم حفظ الإعدادات وتحديث الموقع بنجاح!</p>
           
           <button onclick="saveGeneralSettings(event)" class="submit-button" style="align-self: flex-start;">
             <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2.5"><path d="M5 13l4 4L19 7"></path></svg>
