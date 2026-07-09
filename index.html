@@ -3009,7 +3009,7 @@
   <div class="backdrop-glow"></div>
 
   <!-- Floating Theme Sidebar -->
-  <div class="appearance-sidebar">
+  <div class="appearance-sidebar" style="display: flex; opacity: 1; pointer-events: auto;">
     <div class="sidebar-label">المظهر</div>
     <div class="sidebar-divider"></div>
     <button onclick="setTheme('dark')" id="themeBtnDark" class="theme-toggle-option active">
@@ -3055,7 +3055,7 @@
     </div>
 
     <!-- Confetti Canvas (always in DOM, drawn only when active) -->
-    <canvas id="confettiCanvas"></canvas>
+    <canvas id="confettiCanvas" width="1280" height="869"></canvas>
 
     <!-- Congratulations Overlay (shown when student passes) -->
     <div id="congratsOverlay" class="congrats-overlay" onclick="handleCongratsOutsideClick(event)" style="display: none;">
@@ -3068,16 +3068,16 @@
         <span class="congrats-trophy">🏆</span>
         <h2 class="congrats-title">مبروك النجاح!</h2>
         <p class="congrats-subtitle">أحسنت وأبدعت — استمر في التفوق</p>
-        <p class="congrats-name" id="congratsStudentName">اسم الطالب</p>
+        <p class="congrats-name" id="congratsStudentName">محمود أحمد إسماعيل علي</p>
 
         <div class="congrats-scores">
           <div class="congrats-score-box">
             <div class="congrats-score-label">المجموع</div>
-            <div class="congrats-score-value" id="congratsTotal">—</div>
+            <div class="congrats-score-value" id="congratsTotal">349</div>
           </div>
           <div class="congrats-score-box">
             <div class="congrats-score-label">النسبة المئوية</div>
-            <div class="congrats-score-value" id="congratsPercentage">—%</div>
+            <div class="congrats-score-value" id="congratsPercentage">91.8%</div>
           </div>
         </div>
 
@@ -3145,10 +3145,10 @@
       </form>
 
       <!-- List Search Results (For Name fuzzy matches) -->
-      <div id="resultsList" class="results-list"></div>
+      <div id="resultsList" class="results-list" style="display: none;"></div>
 
       <!-- Error / Empty Results UI -->
-      <div id="noResults" class="no-results">
+      <div id="noResults" class="no-results" style="display: none;">
         <svg viewBox="0 0 24 24" width="40" height="40" stroke="var(--text-muted)" fill="none" stroke-width="1.5" style="display:block;margin:0 auto 12px;"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
         <p id="searchErrorMessage">لم يتم العثور على أي نتائج تطابق بحثك.</p>
       </div>
@@ -3639,7 +3639,7 @@
       <div class="modal-body">
         <div class="report-card">
           <!-- Text watermark instead of SVG -->
-          <div id="cardWatermark" class="report-watermark">مدرسة المشير عبد الحكيم عامر</div>
+          <div id="cardWatermark" class="report-watermark">مدرسة المشير عبدالحكيم عامر</div>
 
           <div class="report-card-inner">
             <!-- Corner decorations for print -->
@@ -3675,23 +3675,23 @@
             <!-- Logo & School header info -->
             <div class="report-school-header">
               <div class="school-info">
-                <h3 id="cardSchoolName">مدرستنا الخاصة</h3>
+                <h3 id="cardSchoolName">مدرسة المشير عبدالحكيم عامر</h3>
                 <p id="cardGov">محافظة المنيا</p>
                 <p id="cardAdmin">إدارة سمالوط التعليمية</p>
               </div>
               <div>
                 <span id="cardStatusBadge" class="status-badge pass">
-                  <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" strokewidth="3"><path d="M5 13l4 4L19 7"></path></svg>
-                  <span id="cardStatusText">ناجح</span>
-                </span>
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" strokewidth="3"><path d="M5 13l4 4L19 7"></path></svg>
+          <span id="cardStatusText">ناجح</span>
+        </span>
               </div>
             </div>
 
             <!-- Student Details Grid -->
             <div class="report-top-info">
-              <div class="info-item">اسم الطالب: <span id="cardStudentName">أحمد محمد علي</span></div>
-              <div class="info-item">رقم الجلوس: <span id="cardSeatNumber">12345</span></div>
-              <div class="info-item">المدرسة: <span id="cardStudentSchool">مدرسة النصر الخاصة</span></div>
+              <div class="info-item">اسم الطالب: <span id="cardStudentName">محمود أحمد إسماعيل علي</span></div>
+              <div class="info-item">رقم الجلوس: <span id="cardSeatNumber">343</span></div>
+              <div class="info-item">المدرسة: <span id="cardStudentSchool">مدرسة المشير عبدالحكيم عامر</span></div>
               <div class="info-item">العام الدراسي: <span id="cardYear">2026</span></div>
             </div>
 
@@ -3706,7 +3706,82 @@
                     <th style="text-align: center;">حالة المادة</th>
                   </tr>
                 </thead>
-                <tbody id="cardTableBody"></tbody>
+                <tbody id="cardTableBody"><tr>
+          <td>
+            اللغة العربية
+            
+          </td>
+          <td style="text-align: center;">80</td>
+          <td style="text-align: center; color: var(--text-main)">75.2</td>
+          <td style="text-align: center;">
+            <span class="grade-status mumtaz">ممتاز</span>
+          </td>
+        </tr><tr>
+          <td>
+            الرياضيات
+            
+          </td>
+          <td style="text-align: center;">60</td>
+          <td style="text-align: center; color: var(--text-main)">54.3</td>
+          <td style="text-align: center;">
+            <span class="grade-status mumtaz">ممتاز</span>
+          </td>
+        </tr><tr>
+          <td>
+            اللغة الإنجليزية
+            
+          </td>
+          <td style="text-align: center;">60</td>
+          <td style="text-align: center; color: var(--text-main)">59.1</td>
+          <td style="text-align: center;">
+            <span class="grade-status mumtaz">ممتاز</span>
+          </td>
+        </tr><tr>
+          <td>
+            الفيزياء
+            
+          </td>
+          <td style="text-align: center;">60</td>
+          <td style="text-align: center; color: var(--text-main)">56.2</td>
+          <td style="text-align: center;">
+            <span class="grade-status mumtaz">ممتاز</span>
+          </td>
+        </tr><tr>
+          <td>
+            التاريخ
+            
+          </td>
+          <td style="text-align: center;">60</td>
+          <td style="text-align: center; color: var(--text-main)">47.7</td>
+          <td style="text-align: center;">
+            <span class="grade-status jayyid-jiddan">جيد جداً</span>
+          </td>
+        </tr><tr>
+          <td>
+            الكيمياء
+            
+          </td>
+          <td style="text-align: center;">60</td>
+          <td style="text-align: center; color: var(--text-main)">56.2</td>
+          <td style="text-align: center;">
+            <span class="grade-status mumtaz">ممتاز</span>
+          </td>
+        </tr><tr style="opacity: 0.72;">
+          <td>
+            التربية الدينية
+            <span style="font-size:10px;font-weight:800;padding:2px 7px;border-radius:20px;background:rgba(148,163,184,0.12);color:var(--text-muted);border:1px solid var(--border-color);margin-right:6px;">خارج المجموع</span>
+          </td>
+          <td style="text-align: center;">60</td>
+          <td style="text-align: center; color: var(--text-main)">56.2</td>
+          <td style="text-align: center;">
+            <span class="grade-status mumtaz">ممتاز</span>
+          </td>
+        </tr><tr class="total-row">
+        <td>المجموع الكلي والنسبة المئوية</td>
+        <td style="text-align: center;">380</td>
+        <td style="text-align: center;">348.70</td>
+        <td style="text-align: center; font-weight: 800;">%91.76</td>
+      </tr></tbody>
               </table>
             </div>
 
@@ -3718,7 +3793,7 @@
               </div>
               <div class="signature-block">
                 <p class="sig-title">مدير المدرسة</p>
-                <p class="sig-name" id="cardPrincipal">علاء سيد جاد</p>
+                <p class="sig-name" id="cardPrincipal">أ. علاء سيد جاد</p>
               </div>
             </div>
           </div>
@@ -3736,7 +3811,7 @@
   </div>
 
   <!-- Page Footer -->
-  <footer class="app-footer">
+  <footer class="app-footer" style="transition: opacity 0.3s, transform 0.3s; display: flex; opacity: 1; transform: translateY(0px); pointer-events: auto;">
     <div class="footer-card">
       <div class="footer-label">
         <span class="sparkle">✦</span>
@@ -3988,6 +4063,7 @@
       const noResults = document.getElementById('noResults');
       if (resultsList) resultsList.style.display = 'none';
       if (noResults) noResults.style.display = 'none';
+      toggleFooter(true);
     }
 
     function fillQuickSearch(term) {
@@ -3996,6 +4072,53 @@
       if (nameInput) { nameInput.value = term; }
       if (seatInput) { seatInput.value = ''; }
       if (nameInput) nameInput.focus();
+    }
+
+    // =============================================
+    // FOOTER VISIBILITY HELPER
+    // =============================================
+    function toggleFooter(show) {
+      const footer = document.querySelector('.app-footer');
+      const sidebar = document.querySelector('.appearance-sidebar');
+
+      if (footer) {
+        footer.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        if (show) {
+          footer.style.display = 'flex';
+          setTimeout(() => {
+            footer.style.opacity = '1';
+            footer.style.transform = 'translateY(0)';
+            footer.style.pointerEvents = 'auto';
+          }, 20);
+        } else {
+          footer.style.opacity = '0';
+          footer.style.transform = 'translateY(20px)';
+          footer.style.pointerEvents = 'none';
+          setTimeout(() => {
+            if (footer.style.opacity === '0') {
+              footer.style.display = 'none';
+            }
+          }, 300);
+        }
+      }
+
+      if (sidebar) {
+        if (show) {
+          sidebar.style.display = 'flex';
+          setTimeout(() => {
+            sidebar.style.opacity = '1';
+            sidebar.style.pointerEvents = 'auto';
+          }, 20);
+        } else {
+          sidebar.style.opacity = '0';
+          sidebar.style.pointerEvents = 'none';
+          setTimeout(() => {
+            if (sidebar.style.opacity === '0') {
+              sidebar.style.display = 'none';
+            }
+          }, 300);
+        }
+      }
     }
 
     // =============================================
@@ -4040,6 +4163,7 @@
 
       if (matches.length > 0) {
         resultsList.style.display = 'flex';
+        toggleFooter(false); // Hide footer when results list appears
         matches.slice(0, 50).forEach(student => {
           const item = document.createElement('div');
           item.className = 'result-item';
@@ -4065,6 +4189,7 @@
         });
       } else {
         noResults.style.display = 'block';
+        toggleFooter(false); // Hide footer when no-results message shows
         document.getElementById('searchErrorMessage').innerText = 'لم يتم العثور على أي نتائج تطابق بحثك.';
       }
     }
@@ -4268,6 +4393,8 @@
       });
       const overallPass = student.status === 'ناجح' && !hasFailingSubject;
 
+      toggleFooter(false); // Hide footer when showing results
+
       if (overallPass) {
         // Show congratulations overlay + confetti
         activeStudent = student;
@@ -4406,6 +4533,8 @@
 
       if (showDetails && activeStudent) {
         setTimeout(() => openDetailedModal(activeStudent), 240);
+      } else {
+        toggleFooter(true);
       }
     }
 
@@ -4517,6 +4646,7 @@
         modal.style.display = 'none';
         modal.style.animation = '';
       }, 180);
+      toggleFooter(true);
     }
 
     // Toast notification helper
@@ -5173,15 +5303,23 @@
         document.getElementById('searchView').style.display = 'flex';
         document.getElementById('menuItemSearch').classList.add('active');
         document.querySelector('.hero-label').style.display = 'block'; // Show hero label
+        
+        const resultsList = document.getElementById('resultsList');
+        const noResults = document.getElementById('noResults');
+        const resultsVisible = (resultsList && resultsList.style.display === 'flex') || 
+                              (noResults && noResults.style.display === 'block');
+        toggleFooter(!resultsVisible);
       } else if (viewName === 'top10') {
         document.getElementById('top10View').style.display = 'block';
         document.getElementById('menuItemTop10').classList.add('active');
         document.querySelector('.hero-label').style.display = 'block';  // Show hero label (visible here too)
+        toggleFooter(true);
         renderTop10();
       } else if (viewName === 'honor') {
         document.getElementById('honorRollView').style.display = 'block';
         document.getElementById('menuItemHonor').classList.add('active');
         document.querySelector('.hero-label').style.display = 'none';  // Hide hero label
+        toggleFooter(true);
         renderHonorRollGrid();
       }
 
